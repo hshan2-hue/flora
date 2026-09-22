@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flora | Voyant Tools: Agile Hermeneutics & Textual Resistance</title>
+  <style>
+    :root {
+      --bg-deep: #0c1410;
+      --bg-surface: #14201a;
+      --bg-card: #1c2b23;
+      --bg-card-hover: #24362d;
+      --text-main: #f0f4f1;
+      --text-muted: #9ab0a2;
+      --accent-leaf: #52b788;
+      --accent-sage: #74c69d;
+      --accent-moss: #40916c;
+      --accent-bloom: #b7e4c7;
+      --accent-alert: #e76f51;
+      --border-color: rgba(183, 228, 199, 0.15);
+      --font-serif: "Georgia", "Cambria", serif;
+      --font-mono: "Fira Code", "Courier New", monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at 10% 20%, rgba(64, 145, 108, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(82, 183, 136, 0.06) 0%, transparent 40%);
+    }
+
+    a {
+      color: var(--accent-bloom);
+      text-decoration: underline;
+      transition: color 0.2s ease;
+    }
+    a:hover {
+      color: #fff;
+    }
+
+    /* 顶部多语言语音播报控制条 */
+    .voice-bar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(12, 20, 16, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .voice-title {
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      color: var(--accent-sage);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .voice-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .voice-btn {
+      background: rgba(28, 43, 35, 0.8);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.25s ease;
+    }
+
+    .voice-btn:hover, .voice-btn.active {
+      background: var(--accent-moss);
+      color: #fff;
+      border-color: var(--accent-leaf);
+      box-shadow: 0 0 10px rgba(82, 183, 136, 0.3);
+    }
+
+    .voice-stop-btn {
+      background: rgba(231, 111, 81, 0.15);
+      border: 1px solid var(--accent-alert);
+      color: var(--accent-alert);
+    }
+    .voice-stop-btn:hover {
+      background: var(--accent-alert);
+      color: #fff;
+    }
+
+    /* 页面布局容器 */
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    /* ----------------------------------------------------
+       第一部分：沉浸式黑屏与历史重构 (Historical Narrative)
+       ---------------------------------------------------- */
+    #narrative-hero {
+      min-height: 100vh;
+      background: #000;
+      color: #e5e5e5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .hero-meta {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      color: var(--accent-alert);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 400;
+      text-align: center;
+      max-width: 800px;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+      color: #fff;
+    }
+
+    /* 9日实录卡片流 */
+    .chronicle-box {
+      max-width: 780px;
+      background: #080c0a;
+      border-left: 2px solid var(--accent-alert);
+      padding: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: #a3b1a8;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .chronicle-item {
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .chronicle-item strong {
+      color: var(--accent-bloom);
+    }
+
+    .transition-callout {
+      margin-top: 3rem;
+      max-width: 780px;
+      text-align: center;
+      background: rgba(28, 43, 35, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .transition-callout h3 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--accent-bloom);
+      margin-bottom: 1rem;
+    }
+
+    .cta-explore {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.85rem 2.2rem;
+      background: var(--accent-leaf);
+      color: var(--bg-deep);
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(82, 183, 136, 0.4);
+    }
+    .cta-explore:hover {
+      background: var(--accent-bloom);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(183, 228, 199, 0.5);
+    }
+
+    /* ----------------------------------------------------
+       主内容区域通用样式
+       ---------------------------------------------------- */
+    .section-header {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-leaf);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2.1rem;
+      font-weight: normal;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .quote-card {
+      background: var(--bg-card);
+      border-left: 3px solid var(--accent-leaf);
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      border-radius: 0 10px 10px 0;
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #d8e2dc;
+    }
+
+    .quote-source {
+      display: block;
+      margin-top: 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* 统计与网格展示 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: transform 0.25s, background-color 0.25s;
+    }
+    .stat-card:hover {
+      background-color: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+
+    .stat-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+    .badge-people { background: rgba(82, 183, 136, 0.2); color: var(--accent-leaf); }
+    .badge-actions { background: rgba(231, 111, 81, 0.2); color: var(--accent-alert); }
+    .badge-space { background: rgba(210, 153, 34, 0.2); color: #e9c46a; }
+    .badge-objects { background: rgba(183, 228, 199, 0.15); color: var(--accent-bloom); }
+
+    .token-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px dashed rgba(183, 228, 199, 0.1);
+      font-size: 0.9rem;
+    }
+
+    /* 技术大厦架构展示 (Architectural Layers) */
+    .architecture-tower {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .tower-floor {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .tower-floor:hover {
+      border-color: var(--accent-leaf);
+    }
+    .tower-floor::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-leaf);
+    }
+
+    .floor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .floor-level {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-sage);
+      text-transform: uppercase;
+    }
+    .floor-tech {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: rgba(82, 183, 136, 0.15);
+      color: var(--accent-bloom);
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    /* 时间线 */
+    .timeline {
+      position: relative;
+      border-left: 2px solid var(--border-color);
+      margin-left: 1rem;
+      padding-left: 2rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -2.45rem;
+      top: 0.35rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-leaf);
+      box-shadow: 0 0 10px var(--accent-leaf);
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--accent-sage);
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+    }
+
+    /* 资源外链卡片 */
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+    .nav-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.25s;
+    }
+    .nav-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-leaf);
+      transform: translateY(-3px);
+    }
+    .nav-item h4 {
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      .voice-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .section-title {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部多语言智能语音转换栏 (Classroom Voice Bar) -->
+  <header class="voice-bar">
+    <div class="voice-title">
+      <span>🌿 FLORA AUDIO SYNTHESIZER</span>
+      <span style="opacity: 0.5;">|</span>
+      <span style="font-size: 0.75rem; color: var(--text-muted);">DH 500 Seminar Voice Companion</span>
+    </div>
+    <div class="voice-btn-group">
+      <button class="voice-btn" onclick="speakSection('en')">🗣️ English (Default)</button>
+      <button class="voice-btn" onclick="speakSection('zh')">🇨🇳 Chinese (中文)</button>
+      <button class="voice-btn" onclick="speakSection('hi')">🇮🇳 Indian English (हिंदी/India)</button>
+      <button class="voice-btn" onclick="speakSection('fr')">🇫🇷 French (Français)</button>
+      <button class="voice-btn" onclick="speakSection('es')">🇲🇽 Spanish (Español)</button>
+      <button class="voice-btn" onclick="speakSection('ru')">🇷🇺 Russian (Русский)</button>
+      <button class="voice-btn voice-stop-btn" onclick="stopSpeech()">⏹️ Stop Voice</button>
+    </div>
+  </header>
+
+  <!-- 第一部分：开篇黑屏沉浸场景 —— 波兰戒备拘留所 9 日实录 -->
+  <section id="narrative-hero">
+    <div class="hero-meta">MAY 17 – MAY 23, 2019 · GUARDED CENTRE FOR FOREIGNERS (SOdC), POLAND</div>
+    <h1 class="hero-title">Nine Days in Suspended Limbo: Bodily Resistance Under Administrative Erasure</h1>
+
+    <div class="chronicle-box" id="speakable-story">
+      <div class="chronicle-item">
+        <strong>Day 1 (May 17, 10:22):</strong> The young woman sat in the corridor before the Provost's window, spitting toothpaste onto the concrete floor to scrawl <em>"Iraq"</em> and unknown glyphs[cite: 7]. Later, she stripped mattress covers, severed the water distributor cable, and attempted to conceal a metal spoon in her jacket pocket[cite: 7].
+      </div>
+      <div class="chronicle-item">
+        <strong>Day 2 (May 17/18, Night):</strong> She tore the directional pictogram from the toilet door[cite: 7]. When lectured on internal order, she reacted with indifferent laughter and sat motionless on the corridor floor for hours[cite: 7].
+      </div>
+      <div class="chronicle-item">
+        <strong>Day 3 & 4 (May 18–19):</strong> She scavenged food scraps from garbage bins, carried an iron pan into the ward, kicked the sluice security door, and tipped over the heavy laundry machines[cite: 7]. Locking herself in the cubicle, she wrote <em>"Glass hate"</em> with toothpaste across the window pane[cite: 7].
+      </div>
+      <div class="chronicle-item">
+        <strong>Day 5 & 7 (May 20–21):</strong> Holding four knives at breakfast; letting all water taps run indefinitely; hurling tomatoes and boiled eggs at the guarded gate after an interview with a psychiatrist[cite: 7]. Words appeared on room 041's window: <em>"Death to everyone always"</em> and <em>"Bombs not food altera"</em>[cite: 7].
+      </div>
+      <div class="chronicle-item">
+        <strong>Day 8 & 9 (May 22–23):</strong> Collecting wild mushrooms, toxic leaves, and cigarette butts in her pockets; smearing jam and cheese spread across doors and walls[cite: 7]. The Center Head ordered direct coercive force, manual strip-searching, and permanent transfer into a solitary isolation cell monitored every 15 minutes[cite: 7].
+      </div>
+    </div>
+
+    <div class="transition-callout" id="speakable-bridge">
+      <h3>How Voyant Unlocks the Institutional Archive</h3>
+      <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
+        Across nine official Border Guard memorandums comprising 1,246 Polish words, the female detainee's legal name, personal voice, and inner trauma are utterly excised[cite: 7]. 
+        By employing <strong>Voyant Tools</strong> for distant reading, computational text analysis does not merely calculate frequencies—it makes visible the "External Limbo" of bureaucratic discipline versus the "Internal Limbo" of human struggle, exposing how a total institution reduces a suffering individual to a dangerous, nameless body[cite: 7].
+      </p>
+      <a href="#voyant-core" class="cta-explore">Step Into Voyant Tools & Agile Hermeneutics ↓</a>
+    </div>
+  </section>
+
+  <!-- 主体内容 -->
+  <main class="container" id="voyant-core">
+
+    <!-- 第二部分：Voyant 是什么？核心价值与敏捷诠释学 -->
+    <section>
+      <div class="section-header">
+        <span class="section-tag">Concept & Philosophy</span>
+        <h2 class="section-title">What is the Point? What Does It Offer? Why Is It Important?</h2>
+      </div>
+
+      <p>
+        <strong>Voyant Tools</strong> is a free, web-accessible, in-browser suite designed for digital text analysis, visual exploration, and algorithmic distant reading[cite: 14, 17]. Rather than enforcing rigid computational scripts, it offers instant generation of word clouds (Cirrus), diachronic frequency distribution curves (Trends), and collocational network graphs (Collocates)[cite: 13, 17].
+      </p>
+
+      <div class="quote-card">
+        “Voyant, the main tool intervention of Hermeneutica, is a newer text-analysis environment meant to support 
+        <a href="#hermeneutica-anchor"><u>Agile Hermeneutics</u></a>.”
+        <span class="quote-source">— Geoffrey Rockwell & Stéfan Sinclair (2016), <em>Hermeneutica: Computer-Assisted Interpretation in the Humanities</em>, Chapter 1, p. 10[cite: 13, 17]</span>
+      </div>
+
+      <p>
+        Voyant redefines the relationship between reader and text, establishing an interactive environment of "serious play" and exploratory reflection[cite: 13]:
+      </p>
+
+      <div class="quote-card">
+        “• Voyant is a Web-accessible, Web-based set of tools. ... You can weave embeddable toys into your projects, share them, and use them to work collaboratively.”<br>
+        “• Voyant is designed to work 'just in time' on any online or uploaded text. ... It combines the capabilities of personal-computer-based pre-indexing tools, such as TACT, with more accessible Web-based tools that can find text and create indexes in real time.”<br>
+        “• Voyant is designed to fit into the research cycle flexibly. It can export a panel of evidence that can be easily embedded into an online essay just as one can embed a YouTube video into a blog entry.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 1, p. 11[cite: 13, 17]</span>
+      </div>
+
+      <div class="quote-card">
+        “These skins express one of our fundamental beliefs about text analysis: that it is not about replacing interpretation, but about enhanced reading. Voyant is meant to be ready at hand if you want to think through texts. As such, it is just another machine for interpretation, like the codex or the concordance.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 2, p. 40[cite: 13, 17]</span>
+      </div>
+    </section>
+
+    <!-- 第三部分：真实研究的 Voyant 语料库拆解 (The Polish Study Corpus) -->
+    <section style="margin-top: 5rem;">
+      <div class="section-header">
+        <span class="section-tag">Case Study In Action</span>
+        <h2 class="section-title">The Polish Detention Study: Voyant’s Categorical Dissection</h2>
+      </div>
+
+      <p>
+        In Agnieszka Chwieduk's empirical inquiry (<em>'External Limbo' - 'Internal Limbo': On the Detention of Immigrants in Polish Guarded Centres for Foreigners</em>, 2022), Voyant Tools analyzed the entire 1,246-word corpus of official memos[cite: 7]. Out of 51 terms appearing 3+ times, Voyant’s frequency and collocational algorithms distilled four strictly separated structural categories[cite: 7]:
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-badge badge-people">CATEGORY 1 · PEOPLE</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem;">Depersonalized institutional agents & passive subjects[cite: 7]:</p>
+          <div class="token-row"><span>umieszczona [detainee]</span><strong>13×</strong></div>
+          <div class="token-row"><span>wartownik [sentry guard]</span><strong>9×</strong></div>
+          <div class="token-row"><span>cudzoziemka [foreigner]</span><strong>8×</strong></div>
+          <div class="token-row"><span>profos [provost]</span><strong>5×</strong></div>
+          <div class="token-row"><span>SG [border guard]</span><strong>4×</strong></div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-badge badge-actions">CATEGORY 2 · ACTIONS</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem;">First-person supervisory verbs enforcing protocol[cite: 7]:</p>
+          <div class="token-row"><span>zapoznałem [(I) acquainted]</span><strong>12×</strong></div>
+          <div class="token-row"><span>przestrzeganiu [comply]</span><strong>7×</strong></div>
+          <div class="token-row"><span>zwrócić [pay attention]</span><strong>6×</strong></div>
+          <div class="token-row"><span>nakazałem [(I) prescribed]</span><strong>5×</strong></div>
+          <div class="token-row"><span>poinformowałem [(I) informed]</span><strong>5×</strong></div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-badge badge-space">CATEGORY 3 · SPACES</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem;">Confined architectural zones of surveillance[cite: 7]:</p>
+          <div class="token-row"><span>ośrodka / SOdC [centre]</span><strong>22×</strong></div>
+          <div class="token-row"><span>małoletnich [minors ward]</span><strong>9×</strong></div>
+          <div class="token-row"><span>podłodze / podłogę [floor]</span><strong>9×</strong></div>
+          <div class="token-row"><span>pokoju [room]</span><strong>7×</strong></div>
+          <div class="token-row"><span>izolacyjnym [isolation cell]</span><strong>3×</strong></div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-badge badge-objects">CATEGORY 4 · OBJECTS</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem;">Disruptive material contact points[cite: 7]:</p>
+          <div class="token-row"><span>śmieci [rubbish]</span><strong>10×</strong></div>
+          <div class="token-row"><span>jedzenie / jedzenia [food]</span><strong>7×</strong></div>
+          <div class="token-row"><span>wodę [water]</span><strong>5×</strong></div>
+          <div class="token-row"><span>drzwi [door]</span><strong>6×</strong></div>
+          <div class="token-row"><span>pokrowce [mattress covers]</span><strong>3×</strong></div>
+        </div>
+      </div>
+
+      <div class="quote-card" style="border-left-color: var(--accent-alert);">
+        <strong>Collocational Truth (CorpusCollocates):</strong> Voyant demonstrated that <code>umieszczona</code> (detainee) directly clusters with <code>śmieci</code> (rubbish, 5×), <code>wodę</code> (water, 4×), <code>toalety</code> (toilet, 4×), and <code>regulaminu</code> (regulations, 4×)[cite: 7]. The quantitative evidence lays bare the moral economy of the center: the woman's psychic agony was officially registered solely as an impediment to cleanliness and architectural order[cite: 7].
+      </div>
+    </section>
+
+    <!-- 第四部分：底层技术架构 —— 虚拟空间的数字建筑 (Architecture Tower) -->
+    <section style="margin-top: 5rem;">
+      <div class="section-header">
+        <span class="section-tag">The Digital Architecture</span>
+        <h2 class="section-title">What Technologies Were Used/Relevant?</h2>
+      </div>
+
+      <p>
+        Building digital humanities tools is akin to crafting architecture or mapping uncharted territory[cite: 14, 17]. Translating raw natural language into computational matrices turns intangible human discourse into interactive virtual instruments[cite: 14, 17]:
+      </p>
+
+      <div class="architecture-tower">
+        <div class="tower-floor">
+          <div class="floor-header">
+            <span class="floor-level">Level 4 · Visual Skins & Interactive Frontend</span>
+            <span class="floor-tech">JavaScript (ES6+) / Ext JS / D3.js</span>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">
+            Driven by <strong>Sencha Ext JS</strong> for customizable, dockable multi-panel desktop layouts (Cirrus, Trends, Bubblelines), combined with <strong>D3.js</strong> for interactive vector graphics, real-time node links, and Google Closure Compiler script optimization[cite: 14, 17].
+          </p>
+        </div>
+
+        <div class="tower-floor">
+          <div class="floor-header">
+            <span class="floor-level">Level 3 · Computational Engine & Indexing Core</span>
+            <span class="floor-tech">Java (Java EE) / Apache Lucene / Trombone</span>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">
+            Powered by the proprietary <strong>Trombone engine</strong> built upon <strong>Apache Lucene</strong>[cite: 14, 17]. Executes inverted text indexing, tokenization, and dynamic n-gram calculations in milliseconds[cite: 13, 14, 17]. Employs <strong>Apache PDFBox</strong> and <strong>POI</strong> to ingest PDFs, DOCX, and HTML raw inputs[cite: 14, 17].
+          </p>
+        </div>
+
+        <div class="tower-floor">
+          <div class="floor-header">
+            <span class="floor-level">Level 2 · NLP, Machine Learning & Statistics</span>
+            <span class="floor-tech">Stanford CoreNLP / MALLET / JAMA</span>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">
+            Embeds <strong>Stanford CoreNLP</strong> for Named Entity Recognition (powering RezoViz social network graphs), <strong>MALLET</strong> for Latent Dirichlet Allocation (LDA) Topic Modeling, and <strong>JAMA</strong> for multidimensional Correspondence Analysis[cite: 13, 14, 17].
+          </p>
+        </div>
+
+        <div class="tower-floor">
+          <div class="floor-header">
+            <span class="floor-level">Level 1 · Modern Ecosystem & Web Notebook</span>
+            <span class="floor-tech">Spyral Notebook / RESTful Web API</span>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">
+            Provides <strong>Spyral</strong>—the next-generation computational notebook that bridges executable JavaScript analysis with narrative scholarly essays, alongside REST APIs supporting single-panel iframe embeddings[cite: 10, 14, 17].
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第五部分：项目议程与哲学承诺 (Agenda & Philosophy) -->
+    <section style="margin-top: 5rem;">
+      <div class="section-header">
+        <span class="section-tag">Agenda & Philosophy</span>
+        <h2 class="section-title">What Was the Point of the Project? What Was Their Agenda?</h2>
+      </div>
+
+      <div class="quote-card">
+        “Voyant allows users to integrate interpretation into their writing by creating small hermeneutica that can be woven into their essays or into Web 2.0 online writing environments such as blogs and wikis.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 1, p. 2[cite: 13, 17]</span>
+      </div>
+
+      <div class="quote-card">
+        “However, in practice we found it difficult to move swiftly from the interpretive tool environment (in which textual evidence is explored) to the environment of the essay (in which a new interpretation is crafted). In response to that difficulty, we created Voyant.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 1, pp. 22–23[cite: 13, 17]</span>
+      </div>
+
+      <div class="quote-card">
+        “Formalization, not quantification, is the foundation of computer-assisted interpretation. We use the computer to model a text in both the sense of creating a representation and in the sense of manipulating that representation by creating interpretive tools that allow us to do both.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 2, p. 41[cite: 13, 17]</span>
+      </div>
+
+      <div class="quote-card">
+        “Hermeneutica proposes an alternative approach: the hybrid essay, an interpretive work embedded with hermeneutical toys that can be explored for technique. ... Hermeneutica embedded in traditional forms of scholarly arguments offer more than a hybrid approach; they offer a more engaging approach.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 5, p. 17 / p. 97[cite: 13, 17]</span>
+      </div>
+
+      <div class="quote-card" style="border-left-color: var(--accent-sage);">
+        “Should artificial intelligence arise, we will still invent (or re-invent) tools that allow us to use our own intelligence. We will still develop interpretive tools—hermeneutica—that can augment and extend our reading, not replace us.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 2, p. 43[cite: 13, 17]</span>
+      </div>
+    </section>
+
+    <!-- 第六部分：组织机构、资助与动态时间线 (Institutions & Funding) -->
+    <section style="margin-top: 5rem;">
+      <div class="section-header">
+        <span class="section-tag">Governance & Lineage</span>
+        <h2 class="section-title">Who is Responsible? Institutions, Funding & Operational Status</h2>
+      </div>
+
+      <p style="margin-bottom: 2rem;">
+        Voyant Tools is sustained through a long-standing collaborative ecology centered in Canadian digital humanities scholarship[cite: 13, 14]:
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">1966 – 2003 · Precedents & TAPoR Lab Experiments</div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">
+            Originating from Canadian text concording traditions (PRORA, TACT, HyperPo), the foundational prototype was incubated in the TAPoR lab at McMaster University, spearheaded by Geoffrey Rockwell and Stéfan Sinclair[cite: 13, 14].
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">2003 – 2016 · National Grants & Hermeneutica (MIT Press)</div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">
+            Funded by major grants from the Canada Foundation for Innovation (CFI) and the Social Sciences and Humanities Research Council of Canada (SSHRC)[cite: 13, 14]. Co-hosted by the University of Alberta (Arts Resource Centre) and McGill University (Centre for Digital Humanities), with infrastructure from Compute Canada (WestGrid, Sharcnet) and technical leadership by Andrew MacDonald[cite: 13, 14].
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">2020 – 2026 · Voyant Consortium & Sustainable Governance</div>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">
+            Following Prof. Sinclair's passing in 2020, governance transitioned to the <strong>Voyant Consortium</strong>, operating under formal bylaws with two Co-Directors, an Executive Board, a Community Board, and a Technical Committee[cite: 10, 11, 12]. Hosted at the University of Alberta and powered by the Digital Research Alliance of Canada and the <strong>LINCS Project</strong> (<code>voyant.lincsproject.ca</code>)[cite: 10, 11].
+          </p>
+        </div>
+      </div>
+
+      <div class="quote-card" id="hermeneutica-anchor">
+        “Agile Hermeneutics and Voyant are therefore self-aware re-inventions built on the giant shoulders of a tradition, not fixed and stable production systems. As research tools, they are unstable models, not finished things.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 1, p. 12[cite: 13, 17]</span>
+      </div>
+    </section>
+
+    <!-- 第七部分：核心官方外链 -->
+    <section style="margin-top: 5rem;">
+      <div class="section-header">
+        <span class="section-tag">Directory & Resources</span>
+        <h2 class="section-title">Where Is It Located? Official Repositories & Links</h2>
+      </div>
+
+      <div class="nav-grid">
+        <div class="nav-item">
+          <h4>Web Environment</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">Live online web portal</p>
+          <a href="https://voyant-tools.org" target="_blank">voyant-tools.org</a>
+        </div>
+        <div class="nav-item">
+          <h4>Consortium & Info</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">Bylaws, team & gallery</p>
+          <a href="https://voyant-tools.info" target="_blank">voyant-tools.info</a>
+        </div>
+        <div class="nav-item">
+          <h4>Documentation</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">Official tools & skin guide</p>
+          <a href="https://beta.voyant-tools.org/docs/index.html" target="_blank">Documentation Docs</a>
+        </div>
+        <div class="nav-item">
+          <h4>GitHub Repository</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem;">Open-source Java & JS code</p>
+          <a href="https://github.com/voyanttools/Voyant" target="_blank">github.com/voyanttools</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="text-align: center; padding: 4rem 1.5rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 5rem;">
+    Flora’s Digital Humanities Presentation · DH 500 · Fall Term 2026 · University of Alberta[cite: 11, 18, 19]
+  </footer>
+
+  <!-- 多语言语音合成引擎 (Web Speech Synthesis Script) -->
+  <script>
+    let synth = window.speechSynthesis;
+    let currentUtterance = null;
+
+    const narratives = {
+      en: {
+        lang: 'en-US',
+        text: "May 17 to 23, 2019. In a Guarded Centre for Foreigners in Poland, a young woman endured nine days of crisis. She spat toothpaste on the floor to write 'Iraq' and 'Glass hate' on the window. She dismantled mattress covers, tipped over laundry machines, and hurled food at the sluice gate. Official Border Guard memorandums eliminated her name, referring to her solely as 'the detainee'. By using Voyant Tools for distant reading, research reveals the systemic discipline of a total institution, exposing the acute tension between the external limbo of administrative control and the internal limbo of human suffering."
+      },
+      zh: {
+        lang: 'zh-CN',
+        text: "2019年5月17日至23日，在波兰外国人守卫中心，一名年轻女性经历了九天的精神与身体危机。她在走廊吐出牙膏写下伊拉克，在窗上写下玻璃仇恨；她拆解床套、推倒洗衣机、向防卫门投掷食物。边防警卫的9份备忘录彻底抹去了她的姓名，仅以被拘留者指代她。借助Voyant Tools进行远距离阅读，研究揭示了全权机构的规训逻辑，将外部悬置的行政控制与内部悬置的个体创伤暴露在公众视野中。"
+      },
+      hi: {
+        lang: 'en-IN',
+        text: "May 2019, Polish Guarded Centre for Foreigners. A young woman underwent nine intense days of crisis, writing 'Iraq' and 'Glass hate' with toothpaste, stripping beds, and protesting through her body. Border Guard memos erased her name, labeling her only as 'the detainee'. Voyant Tools provides distant reading to uncover the stark reality between systemic disciplinary control and human psychological trauma."
+      },
+      fr: {
+        lang: 'fr-FR',
+        text: "Du 17 au 23 mai 2019, dans un centre fermé pour étrangers en Pologne, une jeune femme a vécu neuf jours de crise aiguë. Elle a écrit 'Iraq' et 'Glass hate' avec du dentifrice sur le sol et la vitre. Les rapports officiels ont effacé son nom pour la réduire au statut de 'détenue'. Voyant Tools et la lecture à distance permettent de déconstruire cette discipline institutionnelle et d'éclairer la souffrance humaine étouffée."
+      },
+      es: {
+        lang: 'es-MX',
+        text: "Mayo de 2019. En un centro cerrado de detención en Polonia, una joven extranjera atravesó nueve días de profunda crisis. Escribió 'Iraq' con pasta dental en el suelo y 'Glass hate' en la ventana. Los memorandos oficiales borraron su identidad llamándola simplemente 'la detenida'. Mediante Voyant Tools y la lectura distante, se evidencia cómo la institución totalitaria impone una disciplina punitiva ante el trauma humano."
+      },
+      ru: {
+        lang: 'ru-RU',
+        text: "Май 2019 года. В охраняемом центре для иностранцев в Польше молодая женщина пережила девять дней тяжелейшего кризиса. Она писала зубной пастой на полу 'Iraq' и 'Glass hate' на стекле. В официальных рапортах её имя было стёрто и заменено словом 'задержанная'. Инструмент Voyant Tools позволяет через дистантное чтение выявить карательную дисциплину бюрократической системы и трагедию внутреннего лимбо человека."
+      }
+    };
+
+    function speakSection(langKey) {
+      if (!synth) {
+        alert("Speech synthesis is not supported on this browser.");
+        return;
+      }
+      stopSpeech();
+
+      const item = narratives[langKey] || narratives.en;
+      currentUtterance = new SpeechSynthesisUtterance(item.text);
+      currentUtterance.lang = item.lang;
+      currentUtterance.rate = 0.95;
+      currentUtterance.pitch = 1.0;
+
+      // 高亮按钮状态
+      document.querySelectorAll('.voice-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      currentUtterance.onend = () => {
+        document.querySelectorAll('.voice-btn').forEach(btn => btn.classList.remove('active'));
+      };
+
+      synth.speak(currentUtterance);
+    }
+
+    function stopSpeech() {
+      if (synth && synth.speaking) {
+        synth.cancel();
+      }
+      document.querySelectorAll('.voice-btn').forEach(btn => btn.classList.remove('active'));
+    }
+  </script>
+</body>
+</html>
