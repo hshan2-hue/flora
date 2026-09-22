@@ -133,15 +133,6 @@
       color: var(--accent-forest);
       line-height: 1.7;
     }
-    .quote-source {
-      display: block;
-      margin-top: 1rem;
-      font-family: var(--font-sans);
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
 
     /* 图文排版结构 */
     .image-showcase {
@@ -154,6 +145,7 @@
       border-radius: 2px;
       box-shadow: var(--shadow-elegant);
       border: 10px solid #fff;
+      background: #e5ece7;
     }
     .img-caption {
       margin-top: 1rem;
@@ -168,12 +160,8 @@
       color: var(--accent-coral);
       font-weight: bold;
     }
-    .highlight-yellow {
-      background: rgba(201, 158, 70, 0.2);
-      padding: 0 4px;
-    }
 
-    /* 技术说明区块 */
+    /* 技术说明区块 - 简单一段话 */
     .tech-box {
       background: var(--accent-forest);
       color: #fff;
@@ -226,7 +214,6 @@
     <div class="lang-btn-group">
       <button class="lang-btn active" onclick="translatePage('en')">English</button>
       <button class="lang-btn" onclick="translatePage('zh')">中文</button>
-      <button class="lang-btn" onclick="translatePage('fr')">Français</button>
     </div>
   </header>
 
@@ -239,9 +226,9 @@
         <h2 class="section-title" id="title-1">Nine Days of Resistance</h2>
       </div>
 
-      <div class="content-box" id="content-1">
-        <p>In May 2019, inside the Guarded Centre for Foreigners (SOdC) in Poland, nine official Border Guard memorandums recorded a young woman's acute crisis. She spat toothpaste to scrawl <em>"Iraq"</em> and <em>"Glass hate"</em> onto the floor and windows, dismantled mattress covers, and threw food in protest.</p>
-        <p style="margin-top: 1rem;">The official memos erased her inner agony. The institution's language reduced her entirely to a disciplinary object, referring to her solely as "the detainee" and categorizing her trauma merely as an infraction against hygienic order.</p>
+      <div class="content-box">
+        <p id="content-1-1">In May 2019, inside the Guarded Centre for Foreigners (SOdC) in Poland, nine official Border Guard memorandums recorded a young woman's acute crisis. She spat toothpaste to scrawl <em>"Iraq"</em> and <em>"Glass hate"</em> onto the floor and windows, dismantled mattress covers, and threw food in protest.</p>
+        <p id="content-1-2" style="margin-top: 1rem;">The official memos erased her inner agony. The institution's language reduced her entirely to a disciplinary object, referring to her solely as "the detainee" and categorizing her trauma merely as an infraction against hygienic order.</p>
       </div>
 
       <div class="image-showcase">
@@ -250,28 +237,145 @@
       </div>
     </section>
 
-    <!-- 第二部分：Voyant 的介入与定义 -->
-    <section>
+    <!-- 第二部分：Voyant 的介入与定义 (近距离与远距离阅读) -->
+    <section style="margin-top: 6rem;">
       <div class="section-header">
         <span class="section-tag" id="tag-2">The Digital Intervention</span>
         <h2 class="section-title" id="title-2">Voyant Tools & Agile Hermeneutics</h2>
       </div>
 
       <div class="content-box">
-        <p id="content-2">
+        <p id="content-2-1">
           How do we unmask this bureaucratic erasure? By importing the 1,246 Polish words of the memos into <strong>Voyant Tools</strong>, we transition from traditional human reading to computational analysis. Voyant proves that her name was never used, and her actions were structurally correlated with words like "rubbish" and "toilets".
         </p>
 
-        <div class="quote-box">
-          <p id="def-1">
-            “Voyant is a web-accessible, in-browser text analysis suite designed to support <span class="highlight">Agile Hermeneutics</span>. It serves as a crucial bridge between <strong>Distant Reading</strong> (远距离阅读) — analyzing macroscopic patterns, word frequencies, and semantic trends across thousands of words — and <strong>Close Reading</strong> (近距离阅读) — examiningVoyant 宛如一座繁茂的数字植物园，为文本分析提供了一个充满生命力的生态系统。在这里，研究者可以自由穿梭于两种观察视野之间：既能像俯瞰整片森林般进行“远距离阅读”（Distant Reading），捕捉海量文本数据的宏观脉络与演变趋势；也能如同凝视一朵绽放的翠雀花般，深入“近距离阅读”（Close Reading），细致剖析特定字词在微观语境中的纹理、隐喻与情感色彩。
+        <div class="quote-box" id="def-1">
+          <p>
+            Voyant is a web-accessible, in-browser text analysis suite designed to support <span class="highlight">Agile Hermeneutics</span>. It serves as a crucial bridge between <strong>Distant Reading (远距离阅读)</strong> — analyzing macroscopic patterns, word frequencies, and semantic trends across thousands of words to see the "forest" — and <strong>Close Reading (近距离阅读)</strong> — examining specific words within their immediate, micro-contextual "trees". 
+          </p>
+        </div>
+        
+        <p id="content-2-2">
+          "These skins express one of our fundamental beliefs about text analysis: that it is not about replacing interpretation, but about enhanced reading. Voyant is meant to be ready at hand if you want to think through texts." (Rockwell & Sinclair, 2016)
+        </p>
+      </div>
 
-在这片由文字构筑的丛林中，跨越语言的边界变得轻而易举。系统原生配备了专用的多语言翻译器，支持对各类跨国文献进行纯文本层面的深度解析与翻译互通。它专注于无声的文字转换与多语种支持（不涉及语音识别与播报），让不同语言的文本如同形态各异的奇花异草，在同一个分析生态中和谐共生。
+      <!-- Voyant 界面展示图片 -->
+      <div class="image-showcase">
+        <img src="voyant_ui.jpg" alt="Voyant Tools Interface" onerror="this.onerror=null; this.src='https://voyant-tools.org/images/voyant-screen.png';" />
+        <p class="img-caption" id="cap-2">Voyant Tools Dashboard: Cirrus, Reader, and Trends Panels.</p>
+      </div>
+    </section>
 
-**Voyant 界面设计与交互：Flora & Fauna 面板**
-踏入 Voyant 的核心工作台，宛如翻开一本融合了复古自然插画与现代几何美学的《Flora & Fauna》植物图集。页面摒弃了传统分析工具冰冷的数据感，将各个功能模块化作自然景观：
-*   **词云（Cirrus）**如同盛开的紫色绣球与飞燕草花束，高频词汇以大小不一的繁花形态在中央错落排布，视觉冲击力犹如精心设计的插花艺术。
-*   **文本趋势图（Trends）**化作水彩笔触勾勒的藤蔓与半透明的根系，随着章节与时间线的推进，词频的起伏在屏幕上蜿蜒生长。
-*   **阅读器（Reader）**则被安置在柔和的大地色调中，带来一种仿佛倚靠在午后花园长椅上惬意阅读的松弛感，让冰冷的数字人文分析转化为一场赏心悦目的自然探索。
+    <!-- 第三部分：精简的技术说明 -->
+    <section style="margin-top: 6rem;">
+      <div class="section-header">
+        <span class="section-tag" id="tag-3">Technical Foundation</span>
+        <h2 class="section-title" id="title-3">Behind the Interface</h2>
+      </div>
 
-在这些绚烂繁复的视觉呈现之下，Voyant 的技术根基深扎于稳固的大地。它依托基于浏览器的轻量级架构与先进的自然语言处理（NLP）技术，通过高效的分词算法、词频统计与语境关联模型，将庞杂的非结构化文本数据迅速转化为结构化的可视化图谱。整个底层逻辑无需复杂的本地环境部署，如同植物自然进行光合作用一般，静默而高效地为所有复杂的文本挖掘与可视化解析提供着最纯粹的计算养分。
+      <div class="tech-box" id="tech-text">
+        <strong>Voyant Tools</strong> operates on a streamlined, open-source architecture that requires no complex local installation. At its core, the backend relies on <strong>Java</strong> and <strong>Apache Lucene</strong> to rapidly parse documents, strip out formatting, and create high-speed inverted indexes of the text. Once the mathematical indexing is complete, the data is pushed to the frontend where interactive libraries like <strong>JavaScript, Sencha Ext JS, and D3.js</strong> bring the data to life, allowing users to manipulate word clouds and trend graphs directly in their web browser in real-time.
+      </div>
+    </section>
+
+    <!-- 第四部分：官网链接 -->
+    <section style="margin-top: 5rem;">
+      <div class="section-header">
+        <span class="section-tag">Directory</span>
+        <h2 class="section-title" id="title-4">Explore Further</h2>
+      </div>
+
+      <div class="link-grid">
+        <div class="link-card">
+          <a href="https://voyant-tools.org" target="_blank">Voyant Tools Portal</a>
+        </div>
+        <div class="link-card">
+          <a href="https://voyant-tools.info" target="_blank">Voyant Consortium</a>
+        </div>
+        <div class="link-card">
+          <a href="https://github.com/voyanttools/Voyant" target="_blank">GitHub Repository</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="text-align: center; padding: 3rem; color: var(--text-muted); font-family: var(--font-serif); font-style: italic;">
+    Flora & Fauna · DH 500 Presentation
+  </footer>
+
+  <!-- 极简页面翻译脚本 -->
+  <script>
+    const dictionary = {
+      en: {
+        tag1: "Case Study",
+        title1: "Nine Days of Resistance",
+        content1_1: 'In May 2019, inside the Guarded Centre for Foreigners (SOdC) in Poland, nine official Border Guard memorandums recorded a young woman\'s acute crisis. She spat toothpaste to scrawl <em>"Iraq"</em> and <em>"Glass hate"</em> onto the floor and windows, dismantled mattress covers, and threw food in protest.',
+        content1_2: 'The official memos erased her inner agony. The institution\'s language reduced her entirely to a disciplinary object, referring to her solely as "the detainee" and categorizing her trauma merely as an infraction against hygienic order.',
+        cap1: "Architectural layout of an isolation room in Polish guarded centers. Source: Research Archives / Chwieduk, 2022.",
+        
+        tag2: "The Digital Intervention",
+        title2: "Voyant Tools & Agile Hermeneutics",
+        content2_1: "How do we unmask this bureaucratic erasure? By importing the 1,246 Polish words of the memos into <strong>Voyant Tools</strong>, we transition from traditional human reading to computational analysis. Voyant proves that her name was never used, and her actions were structurally correlated with words like 'rubbish' and 'toilets'.",
+        def1: "Voyant is a web-accessible, in-browser text analysis suite designed to support <span class='highlight'>Agile Hermeneutics</span>. It serves as a crucial bridge between <strong>Distant Reading (远距离阅读)</strong> — analyzing macroscopic patterns, word frequencies, and semantic trends across thousands of words to see the 'forest' — and <strong>Close Reading (近距离阅读)</strong> — examining specific words within their immediate, micro-contextual 'trees'.",
+        content2_2: "\"These skins express one of our fundamental beliefs about text analysis: that it is not about replacing interpretation, but about enhanced reading. Voyant is meant to be ready at hand if you want to think through texts.\" (Rockwell & Sinclair, 2016)",
+        cap2: "Voyant Tools Dashboard: Cirrus, Reader, and Trends Panels.",
+
+        tag3: "Technical Foundation",
+        title3: "Behind the Interface",
+        techText: "<strong>Voyant Tools</strong> operates on a streamlined, open-source architecture that requires no complex local installation. At its core, the backend relies on <strong>Java</strong> and <strong>Apache Lucene</strong> to rapidly parse documents, strip out formatting, and create high-speed inverted indexes of the text. Once the mathematical indexing is complete, the data is pushed to the frontend where interactive libraries like <strong>JavaScript, Sencha Ext JS, and D3.js</strong> bring the data to life, allowing users to manipulate word clouds and trend graphs directly in their web browser in real-time.",
+        
+        title4: "Explore Further"
+      },
+      zh: {
+        tag1: "案例研究",
+        title1: "九日的抗争",
+        content1_1: '2019年5月，在波兰外国人拘留中心，9份边防警卫备忘录记录了一名年轻女子的危机。她吐出牙膏在地上和窗户写下 <em>“伊拉克”</em> 和 <em>“玻璃仇恨”</em>，拆解床套，并通过扔食物来抗议。',
+        content1_2: '官方备忘录抹去了她的内心痛苦。机构的语言将她完全贬低为一个纪律对象，仅仅称她为“被拘留者”，并将她的创伤简单地归类为对卫生秩序的违反。',
+        cap1: "波兰看守中心隔离室的建筑布局。来源：研究档案 / Chwieduk, 2022。",
+        
+        tag2: "数字介入",
+        title2: "Voyant 工具与敏捷阐释学",
+        content2_1: "我们如何揭开这种官僚体系的抹除？通过将备忘录中的1246个波兰语单词导入 <strong>Voyant Tools</strong>，我们从传统的人工阅读过渡到计算分析。Voyant 证明了她的名字从未被提及，而且她的行为在结构上与“垃圾”和“厕所”等词汇高度相关。",
+        def1: "Voyant 是一款基于浏览器的文本分析套件，旨在支持<span class='highlight'>敏捷阐释学 (Agile Hermeneutics)</span>。它充当了一座关键的桥梁，连接了<strong>远距离阅读 (Distant Reading)</strong> ——通过分析成千上万个单词的宏观模式、词频和语义趋势来俯瞰“森林”——与<strong>近距离阅读 (Close Reading)</strong> ——在其直接的微观语境中审视特定的“树木”。",
+        content2_2: "“这些工具面板表达了我们关于文本分析的基本信念：它不是为了取代解释，而是为了增强阅读。如果您想通过文本进行思考，Voyant 应该是随手可得的工具。” (Rockwell & Sinclair, 2016)",
+        cap2: "Voyant Tools 工作台：词云、阅读器与趋势面板。",
+
+        tag3: "技术基础",
+        title3: "界面背后的技术",
+        techText: "<strong>Voyant Tools</strong> 运行在精简的开源架构上，不需要复杂的本地安装。其后端核心依赖 <strong>Java</strong> 和 <strong>Apache Lucene</strong> 快速解析文档，剥离格式，并创建文本的高速倒排索引。一旦数学索引完成，数据就会被推送到前端，由 <strong>JavaScript、Sencha Ext JS 和 D3.js</strong> 等交互式图表库赋予数据生命，允许用户在网络浏览器中实时操作词云和趋势图。",
+        
+        title4: "探索更多"
+      }
+    };
+
+    function translatePage(lang) {
+      // 切换按钮状态
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // 替换文本
+      const texts = dictionary[lang];
+      document.getElementById('tag-1').innerHTML = texts.tag1;
+      document.getElementById('title-1').innerHTML = texts.title1;
+      document.getElementById('content-1-1').innerHTML = texts.content1_1;
+      document.getElementById('content-1-2').innerHTML = texts.content1_2;
+      document.getElementById('cap-1').innerHTML = texts.cap1;
+
+      document.getElementById('tag-2').innerHTML = texts.tag2;
+      document.getElementById('title-2').innerHTML = texts.title2;
+      document.getElementById('content-2-1').innerHTML = texts.content2_1;
+      document.getElementById('def-1').innerHTML = texts.def1;
+      document.getElementById('content-2-2').innerHTML = texts.content2_2;
+      document.getElementById('cap-2').innerHTML = texts.cap2;
+
+      document.getElementById('tag-3').innerHTML = texts.tag3;
+      document.getElementById('title-3').innerHTML = texts.title3;
+      document.getElementById('tech-text').innerHTML = texts.techText;
+
+      document.getElementById('title-4').innerHTML = texts.title4;
+    }
+  </script>
+</body>
+</html>
