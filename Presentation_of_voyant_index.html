@@ -1,1 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voyant Tools: 解构文本的权力透镜</title>
+  <style>
+    :root {
+      --bg-main: #0b0f17;
+      --bg-card: #161c28;
+      --bg-card-hover: #1f2738;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --text-sub: #58a6ff;
+      --accent-red: #f85149;
+      --accent-green: #2ea043;
+      --border-color: rgba(240, 246, 252, 0.1);
+      --font-mono: "Fira Code", "Courier New", Courier, monospace;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* 链接与通用样式 */
+    a {
+      color: var(--text-sub);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #79c0ff;
+    }
+
+    /* 容器 */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    /* ----------------------------------------------------
+       第一部分：开篇全屏历史还原与打字机声音动画
+       ---------------------------------------------------- */
+    #hero-stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      overflow: hidden;
+      z-index: 100;
+    }
+
+    .retro-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      letter-spacing: 0.3em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .typewriter-box {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: #c9d1d9;
+      max-width: 750px;
+      min-height: 140px;
+      border-left: 3px solid var(--accent-red);
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .typewriter-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.2rem;
+      background: var(--text-sub);
+      margin-left: 4px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* 远读扩散粒子背景 */
+    #distant-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    /* 升华展现区 */
+    .manifesto-panel {
+      position: absolute;
+      text-align: center;
+      max-width: 850px;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .manifesto-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .manifesto-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      line-height: 1.3;
+      background: linear-gradient(135deg, #fff 0%, #8b949e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .manifesto-desc {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .scroll-btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: var(--accent-green);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .scroll-btn:hover {
+      background-color: #3fb950;
+      transform: scale(1.03);
+    }
+
+    /* 声音触发提示 */
+    .sound-tip {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    /* ----------------------------------------------------
+       第二部分：核心概念与理论架构
+       ---------------------------------------------------- */
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .quote-box {
+      background: var(--bg-card);
+      border-left: 4px solid var(--text-sub);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+    }
+
+    .quote-source {
+      display: block;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: normal;
+    }
+
+    /* ----------------------------------------------------
+       第三部分：波兰移民拘留案例真实挖掘 (Case Study)
+       ---------------------------------------------------- */
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .case-card:hover {
+      background-color: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+
+    .category-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+    .tag-people { background: rgba(88, 166, 255, 0.2); color: #58a6ff; }
+    .tag-actions { background: rgba(248, 81, 73, 0.2); color: #f85149; }
+    .tag-spaces { background: rgba(210, 153, 34, 0.2); color: #d29922; }
+    .tag-objects { background: rgba(46, 160, 67, 0.2); color: #2ea043; }
+
+    .word-stat-list {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+    .word-stat-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(240, 246, 252, 0.05);
+    }
+
+    /* ----------------------------------------------------
+       第四部分：技术架构可视化 (虚拟大厦/地图)
+       ---------------------------------------------------- */
+    .tech-stack-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .layer-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .layer-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--text-sub);
+    }
+
+    .layer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .layer-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .layer-badge {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: rgba(240, 246, 252, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* ----------------------------------------------------
+       第五部分：生命周期与动态时间线
+       ---------------------------------------------------- */
+    .timeline {
+      position: relative;
+      margin: 2rem 0 2rem 1.5rem;
+      border-left: 2px solid var(--border-color);
+      padding-left: 1.5rem;
+    }
+
+    .timeline-node {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+    .timeline-node::before {
+      content: "";
+      position: absolute;
+      left: -1.95rem;
+      top: 0.35rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--text-sub);
+      box-shadow: 0 0 10px var(--text-sub);
+    }
+
+    .node-year {
+      font-family: var(--font-mono);
+      font-weight: bold;
+      color: var(--text-sub);
+      margin-bottom: 0.3rem;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .link-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 1rem;
+      border-radius: 6px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 开篇第一部分：声画同步还原与远读升华 -->
+  <section id="hero-stage">
+    <div class="sound-tip" id="soundStatus">🔊 点击页面任意处伴随打字音效</div>
+    <div class="retro-indicator" id="retroDate">OCTOBER 2021 · POLISH BORDER GUARD DETENTION CENTER</div>
+    
+    <div class="typewriter-box" id="typewriterBox">
+      <span id="typewriterContent"></span><span class="typewriter-cursor"></span>
+    </div>
+
+    <!-- 粒子远读背景 -->
+    <canvas id="distant-canvas"></canvas>
+
+    <!-- 升华主旨面板 -->
+    <div class="manifesto-panel" id="manifestoPanel">
+      <h1 class="manifesto-title">当官僚备忘录将人化约为“被拘留者”<br>远距离阅读如何刺破叙事的黑盒？</h1>
+      <p class="manifesto-desc">
+        在 9 份包含 1,246 个词的戒备隔离备忘录中，警卫以第一人称规训秩序，抹去受难者的名字与声音[cite: 14]。<br>
+        <strong>Voyant Tools</strong> 赋予人类超越单页肉眼局限的“远读”透镜，让被制度稀释的权力、空间压迫与身体抗争在宏观结构中显影[cite: 13, 14]。
+      </p>
+      <a href="#about-voyant" class="scroll-btn">进入探索：文本与心智的交互</a>
+    </div>
+  </section>
+
+  <main class="container" id="about-voyant">
+
+    <!-- 第二部分：Voyant 是什么？核心价值与设计哲学 -->
+    <section>
+      <h2 class="section-title">What is the point? What does it offer? Why is it important?</h2>
+      <p>
+        <strong>Voyant Tools</strong> 是一个基于浏览器端、完全免费且开源的交互式文本分析与探索环境。它打破了传统“远读”（Distant Reading）依赖高门槛代码编程的壁垒，让任何人都能通过网页即时输入文字或网址，生成词云（Cirrus）、趋势图（Trends）、上下文搭配（Contexts/Collocates）等交互面板[cite: 13, 15]。
+      </p>
+      
+      <div class="quote-box">
+        “Voyant, the main tool intervention of Hermeneutica, is a newer text-analysis environment meant to support 
+        <a href="#agile-hermeneutics"><u>Agile Hermeneutics</u></a>.”
+        <span class="quote-source">— Rockwell & Sinclair (2016), <em>Hermeneutica</em>, Chapter 1, p. 10[cite: 15]</span>
+      </div>
+
+      <p>
+        在数字人文的视野中，Voyant 绝不是为了用冰冷的计算取代人类阅读，而是一种<strong>“增强型阅读（Enhanced Reading）”</strong>工具[cite: 14]：
+      </p>
+
+      <div class="quote-box">
+        “These skins express one of our fundamental beliefs about text analysis: that it is not about replacing interpretation, but about enhanced reading. Voyant is meant to be ready at hand if you want to think through texts. As such, it is just another machine for interpretation, like the codex or the concordance.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 2, p. 40</span>
+      </div>
+
+      <div class="quote-box">
+        “Voyant is a Web-accessible, Web-based set of tools. ... You can weave embeddable toys into your projects, share them, and use them to work collaboratively. Voyant is designed to work 'just in time' on any online or uploaded text.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 1, p. 11</span>
+      </div>
+    </section>
+
+    <!-- 第三部分：真实研究案例解构（波兰移民拘留所备忘录） -->
+    <section style="margin-top: 4rem;">
+      <h2 class="section-title">实证案例：Voyant 如何在波兰拘留所研究中揭示制度规训</h2>
+      <p>
+        在针对波兰边防封闭式外侨拘留中心（SOdC）针对一名年轻女性的官方处遇研究中（参考论文：
+        <a href="https://ejournals.eu/czasopismo/smpp/artykul/external-limbo-internal-limbo-on-the-detention-of-immigrants-in-polish-guarded-centres-for-foreigners" target="_blank">
+          <em>External Limbo – Internal Limbo: On the Detention of Immigrants</em>
+        </a>），研究者构建了记录其处境的 9 份官方备忘录专门语料库（1,246 词）[cite: 14, 15]。
+      </p>
+      <p style="margin-top: 0.5rem;">
+        通过 Voyant Tools 运行高频词分析与 Corpus Collocates 搭配挖掘，文本中自动聚类并揭示出支撑官僚非人称化（Depersonalisation）与规训机制的四大核心范畴[cite: 14]：
+      </p>
+
+      <div class="case-grid">
+        <div class="case-card">
+          <span class="category-tag tag-people">范畴 1 · 人员 (PEOPLE)</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">消解姓名，转为被动态客体与职权称谓[cite: 14]：</p>
+          <ul class="word-stat-list">
+            <li class="word-stat-item"><span>被拘留者 (umieszczona)</span><strong>13 次</strong></li>
+            <li class="word-stat-item"><span>警卫 (wartownik)</span><strong>9 次</strong></li>
+            <li class="word-stat-item"><span>执勤警官 (profos)</span><strong>5 次</strong></li>
+            <li class="word-stat-item"><span>边防警 (SG) / 值班长</span><strong>7 次</strong></li>
+          </ul>
+        </div>
+
+        <div class="case-card">
+          <span class="category-tag tag-actions">范畴 2 · 行为 (ACTIONS)</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">警卫第一人称职能动词构建绝对权威[cite: 14]：</p>
+          <ul class="word-stat-list">
+            <li class="word-stat-item"><span>已知晓/阅读 (zapoznałem)</span><strong>12 次</strong></li>
+            <li class="word-stat-item"><span>恪守规章 (przestrzeganiu)</span><strong>7 次</strong></li>
+            <li class="word-stat-item"><span>注意/提醒 (zwrócić)</span><strong>6 次</strong></li>
+            <li class="word-stat-item"><span>命令/指示 (nakazałem)</span><strong>5 次</strong></li>
+          </ul>
+        </div>
+
+        <div class="case-card">
+          <span class="category-tag tag-spaces">范畴 3 · 空间 (SPACES)</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">封闭、分级隔离的身体物理空间[cite: 14]：</p>
+          <ul class="word-stat-list">
+            <li class="word-stat-item"><span>拘留中心 (SOdC / ośrodka)</span><strong>22 次</strong></li>
+            <li class="word-stat-item"><span>未成年人监区 (oddział)</span><strong>9 次</strong></li>
+            <li class="word-stat-item"><span>地面/走廊 (podłoga)</span><strong>9 次</strong></li>
+            <li class="word-stat-item"><span>房间/隔离室 (pokój)</span><strong>7 次</strong></li>
+          </ul>
+        </div>
+
+        <div class="case-card">
+          <span class="category-tag tag-objects">范畴 4 · 物品 (OBJECTS)</span>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">被严格审视、定义为“失控与污染”的介质[cite: 14]：</p>
+          <ul class="word-stat-list">
+            <li class="word-stat-item"><span>垃圾 (śmieci)</span><strong>10 次</strong></li>
+            <li class="word-stat-item"><span>食物 (jedzenie)</span><strong>7 次</strong></li>
+            <li class="word-stat-item"><span>水/倒水 (wodę)</span><strong>5 次</strong></li>
+            <li class="word-stat-item"><span>门/床垫套 (drzwi/pokrowce)</span><strong>9 次</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quote-box" style="border-left-color: var(--accent-red);">
+        <strong>搭配分析启示（Collocates Insight）：</strong> 
+        在 Voyant 的搭配分析中，词汇“被拘留者（umieszczona）”与“走廊”、“倾倒”、“食物”、“违规”高度共现[cite: 14]。官方文本以极其冷峻的辞藻记录她用牙膏在走廊写下“Iraq”、倒水、撕碎被单等行为[cite: 14]。远读量化揭示了：官僚体制只关心“秩序有没有被玷污”，而 Voyant 则让其抹杀个体痛苦的制度语言彻底曝光[cite: 14]。
+      </div>
+    </section>
+
+    <!-- 第四部分：背后技术栈 —— 像建筑与地图般层层构建 -->
+    <section style="margin-top: 4rem;">
+      <h2 class="section-title">What technologies were used/relevant?</h2>
+      <p>
+        在数字人文工具中，代码不只是工程实现，而是像搭建一座透明的认知大厦，亦如绘制一幅跨越语义荒原的交互地图。语言在底层被拆解为字符流、形式化编码，最终成为人机思想交互的具象义肢[cite: 14]：
+      </p>
+
+      <div class="tech-stack-wrapper">
+        <div class="layer-card">
+          <div class="layer-header">
+            <span class="layer-title">顶层：动态交互面板与可视化皮肤 (Frontend & Visual Skins)</span>
+            <span class="layer-badge">JavaScript / D3.js / Ext JS</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            构筑 Cirrus（词云）、Trends（分布折线图）、Collocates（搭配网格）等多面板协同联动界面[cite: 14]。支持动态分词交互、面板直接导出并以 iframe 嵌入到网页与论文中[cite: 14]。
+          </p>
+        </div>
+
+        <div class="layer-card">
+          <div class="layer-header">
+            <span class="layer-title">核心计算层：文本抽取与倒排索引引擎 (Core Processing Engine)</span>
+            <span class="layer-badge">Java (Trombone) / Apache Lucene</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            基于自主研发的 Java 后端引擎 <strong>Trombone</strong>，集成企业级全文检索库 <strong>Apache Lucene</strong>[cite: 14]。实现毫秒级字符串标记化（Tokenization）、多语种停用词（Stopwords）清洗与高维矩阵统计[cite: 14]。
+          </p>
+        </div>
+
+        <div class="layer-card">
+          <div class="layer-header">
+            <span class="layer-title">新生态与计算笔记本 (Computational Notebook)</span>
+            <span class="layer-badge">Spyral Notebook</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            为敏捷诠释学量身定制的下一代网页笔记本分析环境，让人文学者能将 JavaScript 动态代码、Voyant 图表与诠释性论述自由交织在一起[cite: 10, 14]。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第五部分：治理团队、资助支持与演进时间线 -->
+    <section style="margin-top: 4rem;">
+      <h2 class="section-title">Who is responsible? Supported & Funded?</h2>
+      <p>
+        Voyant Tools 并非孤立商业软件，而是深植于加拿大数字人文三十二年谱系的国际学术协作工程[cite: 14]：
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-node">
+          <div class="node-year">1966 – 2000 · 早期学术探索</div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            从多伦多大学早期的 PRORA 文本工具、1989 年 DOS 版 TACT，演进至麦克马斯特大学主持的加拿大国家级文本分析门户 <strong>TAPoR 1.0</strong>，奠定了计算机辅助文学批评传统[cite: 14]。
+          </p>
+        </div>
+
+        <div class="timeline-node">
+          <div class="node-year">2003 – 2016 · 联合研发与专著奠基</div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            由 <strong>Geoffrey Rockwell</strong>（阿尔伯塔大学）与 <strong>Stéfan Sinclair</strong>（麦吉尔大学）领衔，首席程序员 Andrew Macdonald 及十余位技术学者深度参与。获得加拿大创新基金（CFI）与社会科学和人文研究委员会（SSHRC）长期资助。2016 年于 MIT 出版社出版理论与工具合璧的《<em>Hermeneutica</em>》[cite: 14]。
+          </p>
+        </div>
+
+        <div class="timeline-node">
+          <div class="node-year">2020 – 2026 · 成立 Voyant 联盟与可持续治理</div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            在 Sinclair 教授离世后，团队成立 <strong>Voyant Consortium</strong>（Voyant 联盟）设立双总监与社区委员会[cite: 12, 13]；底层算力依托加拿大数字研究联盟（Digital Research Alliance）及文化语义网络基础设施 <strong>LINCS Project</strong>[cite: 11, 12]。
+          </p>
+        </div>
+      </div>
+
+      <div class="quote-box" id="agile-hermeneutics">
+        “Agile Hermeneutics and Voyant are therefore self-aware re-inventions built on the giant shoulders of a tradition, not fixed and stable production systems. As research tools, they are unstable models, not finished things.”
+        <span class="quote-source">— <em>Hermeneutica</em>, Chapter 1, p. 12[cite: 14, 15]</span>
+      </div>
+    </section>
+
+    <!-- 第六部分：官网与核心资源导航 -->
+    <section style="margin-top: 4rem;">
+      <h2 class="section-title">Where is it located? Link & Resources</h2>
+      <div class="links-grid">
+        <div class="link-box">
+          <h4>在线运行平台</h4>
+          <a href="https://voyant-tools.org" target="_blank">voyant-tools.org</a>
+        </div>
+        <div class="link-box">
+          <h4>联盟章程与文档</h4>
+          <a href="https://voyant-tools.info" target="_blank">voyant-tools.info</a>
+        </div>
+        <div class="link-box">
+          <h4>官方开发文档</h4>
+          <a href="https://beta.voyant-tools.org/docs/index.html" target="_blank">Docs & API</a>
+        </div>
+        <div class="link-box">
+          <h4>开源代码仓库</h4>
+          <a href="https://github.com/voyanttools/Voyant" target="_blank">GitHub Repository</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 4rem;">
+    Voyant Tools Presentation · Academic Web Edition · 2026[cite: 11]
+  </footer>
+
+  <script>
+    /* ----------------------------------------------------
+       打字机音效合成 (Web Audio API: 免除音频文件加载依赖)
+       ---------------------------------------------------- */
+    let audioCtx = null;
+
+    function playTypewriterSound() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        // 构造机械击键的声波脉冲
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        // 随机轻微频移增强机械打字机真实质感
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140 + Math.random() * 80, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.04);
+      } catch (e) {
+        // 音频上下文静音回退
+      }
+    }
+
+    /* ----------------------------------------------------
+       打字机文本流与场景转换
+       ---------------------------------------------------- */
+    const memoText = 'MEMORANDUM: "At 10:22 hours, the detainee sat down in the corridor... wrote the word \'Iraq\' with toothpaste on the floor... refused food, demanded immediate release. Instructed to strictly comply with internal rules and regulations."';
+    const typewriterEl = document.getElementById('typewriterContent');
+    const stageEl = document.getElementById('hero-stage');
+    const manifestoPanel = document.getElementById('manifestoPanel');
+    const distantCanvas = document.getElementById('distant-canvas');
+    const typewriterBox = document.getElementById('typewriterBox');
+    const retroDate = document.getElementById('retroDate');
+    const soundStatus = document.getElementById('soundStatus');
+
+    let charIdx = 0;
+
+    function typeNextChar() {
+      if (charIdx < memoText.length) {
+        typewriterEl.textContent += memoText.charAt(charIdx);
+        playTypewriterSound();
+        charIdx++;
+        setTimeout(typeNextChar, Math.random() * 45 + 30);
+      } else {
+        // 打字结束：停留 1.5 秒后转入“远读粒子扩散与宏观主旨”
+        setTimeout(triggerDistantReadingTransition, 1500);
+      }
+    }
+
+    function triggerDistantReadingTransition() {
+      // 淡出打字框与日期
+      typewriterBox.style.transition = 'opacity 1s ease';
+      retroDate.style.transition = 'opacity 1s ease';
+      typewriterBox.style.opacity = '0';
+      retroDate.style.opacity = '0';
+
+      setTimeout(() => {
+        typewriterBox.style.display = 'none';
+        retroDate.style.display = 'none';
+
+        // 启动背景远读粒子与显现主旨面板
+        distantCanvas.style.opacity = '0.35';
+        manifestoPanel.classList.add('visible');
+        soundStatus.style.display = 'none';
+      }, 1000);
+    }
+
+    /* ----------------------------------------------------
+       远读宏观数据流粒子模拟 (Canvas Canvas Distant Simulation)
+       ---------------------------------------------------- */
+    const canvas = document.getElementById('distant-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const sampleTokens = ['umieszczona', 'zapoznałem', 'śmieci', 'drzwi', 'regulamin', 'SOdC', 'wodę', 'podłoga', 'wartownik', 'oddział'];
+
+    class TextParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.text = sampleTokens[Math.floor(Math.random() * sampleTokens.length)];
+        this.alpha = Math.random() * 0.5 + 0.1;
+        this.fontSize = Math.floor(Math.random() * 14 + 10);
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.fillStyle = `rgba(88, 166, 255, ${this.alpha})`;
+        ctx.font = `${this.fontSize}px var(--font-mono)`;
+        ctx.fillText(this.text, this.x, this.y);
+      }
+    }
+
+    for (let i = 0; i < 45; i++) {
+      particles.push(new TextParticle());
+    }
+
+    function animateDistantParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateDistantParticles);
+    }
+    animateDistantParticles();
+
+    // 交互触发音效初始化并启动动画
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.addEventListener('click', () => {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      }, { once: true });
+
+      setTimeout(typeNextChar, 1000);
+    });
+  </script>
+</body>
+</html>
