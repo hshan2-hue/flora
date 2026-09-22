@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flora | Voyant Tools: 文本解构、实证与架构</title>
+  <title>Flora | Voyant Tools: 文本解构、实证与治理</title>
   <style>
     :root {
       --bg-dark: #090c10;
@@ -182,6 +182,16 @@
       font-size: 0.95rem;
       font-style: italic;
     }
+    .quote-card-sub {
+      background: #0d1117;
+      border-left: 4px solid var(--accent-green);
+      padding: 1.4rem 1.6rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.8rem 0;
+      color: #e6edf3;
+      font-size: 0.95rem;
+      font-style: italic;
+    }
 
     .image-showcase {
       background: var(--card-inner);
@@ -212,8 +222,60 @@
       border-bottom: 1px dashed var(--accent-blue);
       padding-bottom: 1px;
     }
-    .tech-link:hover {
-      border-bottom-style: solid;
+    .tech-link:hover { border-bottom-style: solid; }
+
+    /* 时间轴样式 */
+    .timeline-box {
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .timeline-row {
+      background: #161d28;
+      border: 1px solid var(--accent-border);
+      border-left: 4px solid var(--accent-green);
+      padding: 1.2rem 1.4rem;
+      border-radius: 4px 10px 10px 4px;
+    }
+    .timeline-time {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-green-bright);
+      margin-bottom: 0.3rem;
+      font-family: var(--font-mono);
+    }
+
+    /* 验证链接瓦片网格 */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .link-tile {
+      background: #161d28;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      padding: 1.2rem;
+      text-align: center;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.2s;
+    }
+    .link-tile:hover {
+      border-color: var(--accent-green-bright);
+      background-color: #1f2937;
+      transform: translateY(-2px);
+    }
+    .link-tile h4 {
+      font-size: 0.95rem;
+      color: var(--accent-green-bright);
+      margin-bottom: 0.3rem;
+    }
+    .link-tile p {
+      font-size: 0.8rem;
+      color: var(--text-gray);
     }
 
     .footer-actions {
@@ -273,7 +335,7 @@
   </header>
 
   <!-- Hero 区域 -->
-  <section class="hero-section">
+  <header class="hero-section">
     <h1 class="hero-title" id="t-hero-title">
       当官僚备忘录将人化约为“被拘留者”<br />
       远距离阅读如何刺破叙事的黑盒？
@@ -285,35 +347,31 @@
       Voyant Tools 赋予人类超越单页肉眼局限的“远读”透镜，让被制度稀释的权力、空间压迫与身体抗争在宏观结构中显影。
     </p>
     <a href="#case-study" class="btn-green-cta" id="t-hero-btn">进入探索：文本与心智的交互</a>
-  </section>
+  </header>
 
   <main class="container">
 
-    <!-- 问题板块 1：波兰实证与创伤还原 -->
+    <!-- 板块 1：波兰实证与创伤还原 -->
     <article class="content-card" id="case-study">
       <h2 class="card-title" id="t-case-title">
         <span>🩸</span> 1. 实证开篇：波兰看守中心的九日抗争与话语抹除
       </h2>
-      
       <p class="text-block" id="t-case-p1">
         <strong>研究之前的情况与遭遇抹消：</strong>在波兰受监管外国人中心（GCF/SOdC）的实际运作中，一名经历严重创伤与急性心理危机的年轻移民女性，其存在被完全封闭在戒备隔离区。在边防警卫撰写的 9 份官方备忘录中，这位女子的名字、国籍与遭遇历史被系统性彻底抹除——官方文件通篇使用波兰语屈折变格 <em>umieszczona / umieszczonej / umieszczoną</em>（“被拘留者/被安置者”）来代称她。在警卫标准化的规训口吻中，她因绝望而发生的应激求救被冷酷定性为“违反社会规范”，她撕开床垫、在窗上写下字迹的身体呼喊，被官方行政话语直接化约为“破坏设施与污染卫生”。
       </p>
-
       <div class="quote-card" id="t-case-quote">
         “5月20日：该名外国女性在走廊倾倒废水、撕扯门牌、向闸门投掷鸡蛋与番茄……5月22日：窗户上发现刻有‘Death to everyone always’字样。行政长官批示：‘当事人对洗窗命令报以大笑，责令警卫对其特殊监控。’——官方备忘录记录”
       </div>
-
       <p class="text-block" id="t-case-p2">
         <strong>Voyant Tools 如何还原女子的创伤：</strong>通过将这 1,246 个词的官方语料导入 Voyant Tools，研究者利用<strong>上下文搭配网络（Collocates/Links）</strong>与<strong>变格词频矩阵（Corpus Collocates）</strong>穿透了单向度的官僚话语。计算分析揭示出，与“被拘留者”（umieszczona）高频强绑定的并非暴力，而是密集的空间与规训词汇——“水（woda）”、“门（drzwi）”、“垃圾（śmieci）”与“走廊（korytarz）”。Voyant 从统计学维度刺破了文本假面：证明所谓“不合规行为”本质上是一名被剥夺身份的人，在极度封闭的规训空间内，以自己的身体、日用品乃至排泄物为武器所进行的绝望求生与抵抗。
       </p>
-
       <div class="image-showcase">
         <img src="voyant_ui.jpg" alt="Voyant 在波兰案例中的文本分析工作流" onerror="this.onerror=null; this.src='https://voyant-tools.org/resources/img/voyant-screen.png';" />
         <div class="image-caption" id="t-img-caption">图 1：使用 Voyant Tools 解析波兰备忘录时呈现的词频、搭配网络与 KWIC 语境联动分析界面</div>
       </div>
     </article>
 
-    <!-- 问题板块 2：工具本质、 offering 与重要性 (What is the point? What does it offer? Why is it important?) -->
+    <!-- 板块 2：工具本质与核心价值 -->
     <article class="content-card" id="overview">
       <h2 class="card-title" id="t-what-title">
         <span>💡</span> 2. What is the point? What does it offer? Why is it important?
@@ -323,7 +381,7 @@
       </p>
     </article>
 
-    <!-- 问题板块 3：技术底座与架构 (Technical Foundation & Stack) -->
+    <!-- 板块 3：技术底座与架构 -->
     <article class="content-card" id="technology">
       <h2 class="card-title" id="t-tech-title">
         <span>⚙️</span> 3. 技术底座、架构与开源生态
@@ -331,7 +389,6 @@
       <p class="text-block" id="t-tech-body">
         Voyant Tools 采用了轻量化且高并发的现代前后端分离架构：服务器后端依托 <a href="https://www.java.com" target="_blank" class="tech-link">Java</a> 与企业级文本搜索引擎 <a href="https://lucene.apache.org" target="_blank" class="tech-link">Apache Lucene</a>，在毫秒级内完成大规模文档的词法切分、停用词过滤与倒排索引构建；前端用户界面则基于标准 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" class="tech-link">JavaScript</a>，深度融合了面向复杂面板联动的 <a href="https://www.sencha.com/products/extjs/" target="_blank" class="tech-link">Ext JS</a> 框架与数据可视化驱动库 <a href="https://d3js.org" target="_blank" class="tech-link">D3.js</a>，全部代码在自由开源的 <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" class="tech-link">GPLv3 许可协议</a> 下公开托管与演进。
       </p>
-
       <div class="footer-actions">
         <a href="https://voyant-tools.org" target="_blank" class="footer-btn" id="t-btn-live">🌐 启动 Voyant 在线工作台</a>
         <a href="https://github.com/voyanttools/Voyant" target="_blank" class="footer-btn" id="t-btn-git">💻 GitHub 源码仓库</a>
@@ -339,7 +396,7 @@
       </div>
     </article>
 
-    <!-- 问题板块 4：API 扩展与本地开发空间 (API & Workspace Setup Extension) -->
+    <!-- 板块 4：API 接口与本地开发工作区 -->
     <article class="content-card" id="extensions">
       <h2 class="card-title" id="t-ext-title">
         <span>🔌</span> 4. API 接口与本地开发工作区扩展
@@ -349,10 +406,81 @@
       </p>
     </article>
 
+    <!-- ========== 新增追加板块（对应三张截图内容） ========== -->
+
+    <!-- 新增板块 A：议程和反思（人工智能时代的人类智能） -->
+    <article class="content-card" id="reflection">
+      <h2 class="card-title" id="t-ref-title">
+        <span>🧠</span> 5. 议程和反思：人工智能时代的人类智能
+      </h2>
+      <div class="quote-card-sub" id="t-ref-q1">
+        “然而，在实践中，我们发现很难从解释工具环境（其中探索文本证据）迅速移动到文章环境（其中编写新的解释）。为了应对这一困难，我们创建了 Voyant。”<br>
+        <small style="opacity: 0.7;">— Hermeneutica, 第1章, 第22–23页</small>
+      </div>
+      <div class="quote-card-sub" id="t-ref-q2">
+        “如果人工智能出现，我们仍将发明（或重新发明）允许我们使用自己的智能的工具。我们将仍将开发解释工具——hermeneutica——可以增强和扩展我们的阅读，而不是取代我们。”<br>
+        <small style="opacity: 0.7;">— Hermeneutica, 第2章, 第43页</small>
+      </div>
+      <div class="quote-card-sub" id="t-ref-q3">
+        “Hermeneutica 提出了另一种方法：混合论文，一种嵌入了解释学玩具的解释性作品，可以探索技术。…嵌入传统形式的学术论证中的 Hermeneutica 提供的不仅仅是一种混合方法：它们提供了一种更具吸引力的方法。”<br>
+        <small style="opacity: 0.7;">— Hermeneutica, 第5章, 第17页/第97页</small>
+      </div>
+    </article>
+
+    <!-- 新增板块 B：血统和治理（谁负责？资金、机构和生活联盟） -->
+    <article class="content-card" id="governance">
+      <h2 class="card-title" id="t-gov-title">
+        <span>🏛️</span> 6. 血统和治理：谁负责？资金、机构和生活联盟
+      </h2>
+      <div class="timeline-box">
+        <div class="timeline-row">
+          <div class="timeline-time">1996 – 2003 · 早期种子和 TAPOR实验</div>
+          <div id="t-gov-t1">加拿大文本一致性先例（PRORA、TACT、HyperPo）。Geoffrey Rockwell和Stéfan Sinclair在麦吉尔大学的TAPOR实验室内启动了探索性实验。</div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-time">2003 – 2016 · 国家赠款和 Hermeneutica里程碑</div>
+          <div id="t-gov-t2">SSHRC（加拿大社会科学和人文研究委员会）和 CFI（加拿大创新基金会）的主要研究支持。由阿尔伯塔大学和麦吉尔大学与首席程序员Andrew MacDonald共同开发。</div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-time">2020 – 2026 · 可持续治理和Voyant联盟</div>
+          <div id="t-gov-t3">Sinclair教授去世后，成立了Voyant联盟，以保障开源的连续性。由加拿大数字研究联盟和国家 LINCS 项目（voyant.lincsproject.ca）支持。</div>
+        </div>
+      </div>
+      <div class="quote-card" id="t-gov-quote" style="margin-top: 1.5rem;">
+        “因此，敏捷解释学和 Voyant 是建立在传统的巨大肩上的自我意识的重新发明，而不是固定和稳定的生产体系。作为研究工具，它们是不稳定的模型，而不是完成的东西。”<br>
+        <small style="opacity: 0.7;">— Hermeneutica, 第1章, 第12页</small>
+      </div>
+    </article>
+
+    <!-- 新增板块 C：目录（它在哪里？已验证的链接） -->
+    <article class="content-card" id="verified-links">
+      <h2 class="card-title" id="t-lnk-title">
+        <span>🔗</span> 7. 目录：它在哪里？已验证的链接
+      </h2>
+      <div class="links-grid">
+        <a href="https://voyant-tools.org" target="_blank" class="link-tile">
+          <h4 id="t-lnk-l1-h">网络环境</h4>
+          <p id="t-lnk-l1-p">实时在线门户网站<br><strong>voyant-tools.org网站</strong></p>
+        </a>
+        <a href="https://voyant-tools.info" target="_blank" class="link-tile">
+          <h4 id="t-lnk-l2-h">联盟和信息</h4>
+          <p id="t-lnk-l2-p">章程、团队和社区<br><strong>voyant-tools.info</strong></p>
+        </a>
+        <a href="https://voyant-tools.info" target="_blank" class="link-tile">
+          <h4 id="t-lnk-l3-h">文件</h4>
+          <p id="t-lnk-l3-p">工具和皮肤手册<br><strong>文档文档</strong></p>
+        </a>
+        <a href="https://github.com/voyanttools/Voyant" target="_blank" class="link-tile">
+          <h4 id="t-lnk-l4-h">开源代码</h4>
+          <p id="t-lnk-l4-p">公共Java/JS存储库<br><strong>github.com/voyanttools</strong></p>
+        </a>
+      </div>
+    </article>
+
   </main>
 
-  <footer>
-    Designed & Curated by Flora · University of Alberta · DH 500 Project
+  <footer id="t-footer">
+    Flora的数字人文演讲 · DH 500 · 2026年秋季学期 · 阿尔伯塔大学
   </footer>
 
   <script>
@@ -373,6 +501,21 @@
         techBody: "Voyant Tools 采用了轻量化且高并发的现代前后端分离架构：服务器后端依托 <a href='https://www.java.com' target='_blank' class='tech-link'>Java</a> 与企业级文本搜索引擎 <a href='https://lucene.apache.org' target='_blank' class='tech-link'>Apache Lucene</a>，在毫秒级内完成大规模文档的词法切分、停用词过滤与倒排索引构建；前端用户界面则基于标准 <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript' target='_blank' class='tech-link'>JavaScript</a>，深度融合了面向复杂面板联动的 <a href='https://www.sencha.com/products/extjs/' target='_blank' class='tech-link'>Ext JS</a> 框架与数据可视化驱动库 <a href='https://d3js.org' target='_blank' class='tech-link'>D3.js</a>，全部代码在自由开源的 <a href='https://www.gnu.org/licenses/gpl-3.0.html' target='_blank' class='tech-link'>GPLv3 许可协议</a> 下公开托管与演进。",
         extTitle: "<span>🔌</span> 4. API 接口与本地开发工作区扩展",
         extBody: "除了网页图形交互，Voyant 还通过其 Trombone 后端引擎开放了功能完善的 <strong>API 接口</strong>（如 <code>tool=StoredResource&runWithoutCorpus=true</code>），允许研究者直接通过外部脚本实现文本字符串的动态存储与调用。对于希望参与开源贡献或本地调试的开发者，项目也提供了完整的 <strong>Eclipse / IntelliJ 工作区配置指南</strong>，通过 Git 版本控制与 GitHub Actions 自动化流水线，确保了从本地编码到云端部署的安全与高效。",
+        refTitle: "<span>🧠</span> 5. 议程和反思：人工智能时代的人类智能",
+        refQ1: "“然而，在实践中，我们发现很难从解释工具环境（其中探索文本证据）迅速移动到文章环境（其中编写新的解释）。为了应对这一困难，我们创建了 Voyant。”<br><small style='opacity: 0.7;'>— Hermeneutica, 第1章, 第22–23页</small>",
+        refQ2: "“如果人工智能出现，我们仍将发明（或重新发明）允许我们使用自己的智能的工具。我们将仍将开发解释工具——hermeneutica——可以增强和扩展我们的阅读，而不是取代我们。”<br><small style='opacity: 0.7;'>— Hermeneutica, 第2章, 第43页</small>",
+        refQ3: "“Hermeneutica 提出了另一种方法：混合论文，一种嵌入了解释学玩具的解释性作品，可以探索技术。…嵌入传统形式的学术论证中的 Hermeneutica 提供的不仅仅是一种混合方法：它们提供了一种更具吸引力的方法。”<br><small style='opacity: 0.7;'>— Hermeneutica, 第5章, 第17页/第97页</small>",
+        govTitle: "<span>🏛️</span> 6. 血统和治理：谁负责？资金、机构和生活联盟",
+        govT1: "加拿大文本一致性先例（PRORA、TACT、HyperPo）。Geoffrey Rockwell和Stéfan Sinclair在麦吉尔大学的TAPOR实验室内启动了探索性实验。",
+        govT2: "SSHRC（加拿大社会科学和人文研究委员会）和 CFI（加拿大创新基金会）的主要研究支持。由阿尔伯塔大学和麦吉尔大学与首席程序员Andrew MacDonald共同开发。",
+        govT3: "Sinclair教授去世后，成立了Voyant联盟，以保障开源的连续性。由加拿大数字研究联盟和国家 LINCS 项目（voyant.lincsproject.ca）支持。",
+        govQuote: "“因此，敏捷解释学和 Voyant 是建立在传统的巨大肩上的自我意识的重新发明，而不是固定和稳定的生产体系。作为研究工具，它们是不稳定的模型，而不是完成的东西。”<br><small style='opacity: 0.7;'>— Hermeneutica, 第1章, 第12页</small>",
+        lnkTitle: "<span>🔗</span> 7. 目录：它在哪里？已验证的链接",
+        lnkL1H: "网络环境", lnkL1P: "实时在线门户网站<br><strong>voyant-tools.org网站</strong>",
+        lnkL2H: "联盟和信息", lnkL2P: "章程、团队和社区<br><strong>voyant-tools.info</strong>",
+        lnkL3H: "文件", lnkL3P: "工具和皮肤手册<br><strong>文档文档</strong>",
+        lnkL4H: "开源代码", lnkL4P: "公共Java/JS存储库<br><strong>github.com/voyanttools</strong>",
+        footerText: "Flora的数字人文演讲 · DH 500 · 2026年秋季学期 · 阿尔伯塔大学",
         btnLive: "🌐 启动 Voyant 在线工作台",
         btnGit: "💻 GitHub 源码仓库",
         btnDoc: "📑 官方文档与案例库"
@@ -383,7 +526,7 @@
         heroSub: "Voyant Tools मानवीय सीमाओं से परे एक व्यापक 'डिस्टेंट रीडिंग' दृष्टिकोण प्रदान करता है, जिससे संस्थागत शक्ति और शारीरिक प्रतिरोध संरचनात्मक रूप से दिखाई देते हैं।",
         heroBtn: "अन्वेषण शुरू करें: पाठ और मस्तिष्क का संवाद",
         caseTitle: "<span>🩸</span> 1. पोलिश निरोध केंद्र: पहचान का विलोपन और शारीरिक प्रतिरोध",
-        caseP1: "<strong>अध्ययन से पहले की स्थिति और पहचान का विलोपन:</strong> पोलिश विदेशी निरोध केंद्र (GCF) में मानसिक संकट से जूझ रही एक युवा प्रवासी महिला की पीड़ा को बंद कमरों में दबा दिया गया। 9 आधिकारिक ज्ञापनों में उसके नाम को मिटाकर केवल पोलिश शब्द <em>umieszczona</em> ('हिरासत में ली गई') से संबोधित किया गया। उसके संकट और पुकार को 'सामाजिक नियमों का उल्लंघन' और 'सफाई व्यवस्था बिगाड़ना' करार दिया गया।",
+        caseP1: "<strong>अध्ययन से पहले की स्थिति और पहचान का विलोपन:</strong> पोलिश विदेशी निरोध केंद्र (GCF) में मानसिक संकट से जूझ रही एक युवा प्रवासी महिला की पीड़ा को बंद कमरों में दबा दिया गया। 9 आधिकारिक ज्ञापनों में उसके नाम को मिटाकर केवल पोलिश शब्द <em>umieszczona</em> ('हिरासत में ली गई') से संबोधित किया गया। उसके संकट और पुकार को 'सामाजिक नियमों का उल्लंघन' और 'सफाई व्यवस्था बिगाड़ना' करार दिया गया。",
         caseQuote: "“20 मई: महिला ने गलियारे में पानी गिराया, दरवाजे तोड़े, अंडों और टमाटरों से हमला किया... 22 मई: खिड़की पर लिखा पाया गया: 'Death to everyone always'।—आधिकारिक ज्ञापन”",
         caseP2: "<strong>Voyant Tools ने आघात को कैसे उजागर किया:</strong> 1,246 शब्दों को Voyant Tools में विश्लेषित करके, शोधकर्ताओं ने <strong>Collocates नेटवर्क</strong> के माध्यम से साबित किया कि महिला के साथ जुड़े मुख्य शब्द हिंसा नहीं, बल्कि 'पानी', 'दरवाजा', 'कचरा' और 'गलियारा' थे। यह गणितीय रूप से साबित हुआ कि यह केवल अनुशासन का मुद्दा नहीं, बल्कि एक अमानवीय व्यवस्था के खिलाफ शारीरिक प्रतिरोध था।",
         imgCaption: "चित्र 1: Voyant Tools पर पोलिश ज्ञापन के पाठ विश्लेषण और नेटवर्क का प्रदर्शन",
@@ -392,7 +535,22 @@
         techTitle: "<span>⚙️</span> 3. तकनीकी आधार, वास्तुकला और ओपन-सोर्स इकोसिस्टम",
         techBody: "Voyant Tools का बैकएंड <a href='https://www.java.com' target='_blank' class='tech-link'>Java</a> और <a href='https://lucene.apache.org' target='_blank' class='tech-link'>Apache Lucene</a> पर आधारित है, जबकि फ्रंटएंड <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript' target='_blank' class='tech-link'>JavaScript</a>, <a href='https://www.sencha.com/products/extjs/' target='_blank' class='tech-link'>Ext JS</a> और <a href='https://d3js.org' target='_blank' class='tech-link'>D3.js</a> का उपयोग करता है, जो <a href='https://www.gnu.org/licenses/gpl-3.0.html' target='_blank' class='tech-link'>GPLv3 लाइसेंस</a> के तहत संचालित है।",
         extTitle: "<span>🔌</span> 4. API इंटरफेस और स्थानीय विकास कार्यक्षेत्र",
-        extBody: "वेब इंटरफेस के अलावा, Voyant अपने Trombone बैकएंड के माध्यम से पूर्ण <strong>API इंटरफेस</strong> (जैसे <code>tool=StoredResource&runWithoutCorpus=true</code>) प्रदान करता है। डेवलपर्स के लिए <strong>Eclipse / IntelliJ</strong> सेटअप गाइड और Git/GitHub Actions ऑटोमेशन भी उपलब्ध है।",
+        extBody: "वेब इंटरफेस के अलावा, Voyant अपने Trombone बैकएंड के माध्यम से पूर्ण <strong>API इंटरफेस</strong> प्रदान करता है। डेवलपर्स के लिए <strong>Eclipse / IntelliJ</strong> सेटअप गाइड और Git/GitHub Actions ऑटोमेशन भी उपलब्ध है।",
+        refTitle: "<span>🧠</span> 5. एजेंडा और प्रतिबिंब: एआई युग में मानव बुद्धि",
+        refQ1: "“व्यवहार में, हम पाते हैं कि व्याख्या उपकरण वातावरण से लेख वातावरण में जाना कठिन है। इस कठिनाई से निपटने के लिए, हमने Voyant बनाया।”<br><small style='opacity: 0.7;'>— Hermeneutica, अध्याय 1, पृष्ठ 22–23</small>",
+        refQ2: "“यदि एआई आता है, तो हम ऐसे उपकरणों का आविष्कार करेंगे जो हमारी अपनी बुद्धि का उपयोग करने की अनुमति देते हैं।”<br><small style='opacity: 0.7;'>— Hermeneutica, अध्याय 2, पृष्ठ 43</small>",
+        refQ3: "“Hermeneutica एक मिश्रित निबंध का प्रस्ताव करता है...”<br><small style='opacity: 0.7;'>— Hermeneutica, अध्याय 5, पृष्ठ 17/97</small>",
+        govTitle: "<span>🏛️</span> 6. वंस और शासन: प्रभारी कौन है?",
+        govT1: "कनाडाई पाठ निरंतरता पूर्ववर्ती (PRORA, TACT)। Geoffrey Rockwell और Stéfan Sinclair द्वारा TAPOR लैब प्रयोग。",
+        govT2: "SSHRC और CFI से मुख्य अनुसंधान समर्थन। Andrew MacDonald के साथ विकसित。",
+        govT3: "Voyant गठबंधन की स्थापना। डिजिटल रिसर्च अलायंस द्वारा समर्थित。",
+        govQuote: "“अतः Voyant परंपरा के कंधों पर एक पुनर्आविष्कार है।”<br><small style='opacity: 0.7;'>— Hermeneutica, अध्याय 1, पृष्ठ 12</small>",
+        lnkTitle: "<span>🔗</span> 7. निर्देशिका: यह कहाँ है?",
+        lnkL1H: "वेब पर्यावरण", lnkL1P: "पोर्टल<br><strong>voyant-tools.org</strong>",
+        lnkL2H: "गठबंधन और सूचना", lnkL2P: "समुदाय<br><strong>voyant-tools.info</strong>",
+        lnkL3H: "दस्तावेज़", lnkL3P: "मैनुअल<br><strong>दस्तावेज़</strong>",
+        lnkL4H: "ओपन सोर्स", lnkL4P: "रिपॉजिटरी<br><strong>github.com/voyanttools</strong>",
+        footerText: "Flora का डिजिटल मानविकी व्याख्यान · DH 500 · अल्बर्टा विश्वविद्यालय",
         btnLive: "🌐 Voyant Tools लाइव खोलें",
         btnGit: "💻 GitHub रिपॉजिटरी",
         btnDoc: "📑 आधिकारिक दस्तावेज़"
@@ -413,6 +571,21 @@
         techBody: "Voyant Tools is built on a scalable client-server architecture: the backend leverages <a href='https://www.java.com' target='_blank' class='tech-link'>Java</a> and the enterprise search engine <a href='https://lucene.apache.org' target='_blank' class='tech-link'>Apache Lucene</a> to perform tokenization, stopword removal, and inverted indexing in milliseconds; the frontend relies on vanilla <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript' target='_blank' class='tech-link'>JavaScript</a>, integrating the modular <a href='https://www.sencha.com/products/extjs/' target='_blank' class='tech-link'>Ext JS</a> framework for interconnected panels alongside the <a href='https://d3js.org' target='_blank' class='tech-link'>D3.js</a> data visualization library, all openly distributed under the <a href='https://www.gnu.org/licenses/gpl-3.0.html' target='_blank' class='tech-link'>GPLv3 license</a>.",
         extTitle: "<span>🔌</span> 4. API Integration & Local Workspace Extensions",
         extBody: "Beyond graphical interfaces, Voyant exposes a robust <strong>API</strong> through its Trombone engine (e.g., <code>tool=StoredResource&runWithoutCorpus=true</code>), empowering scripts to dynamically store and retrieve text strings. For developers contributing to the project, comprehensive <strong>Eclipse / IntelliJ workspace setup guides</strong> and GitHub Actions CI/CD workflows ensure secure and seamless deployment from local code to production.",
+        refTitle: "<span>🧠</span> 5. Agenda and Reflection: Human Intelligence in the Age of AI",
+        refQ1: "“However, in practice, we have found it difficult to move quickly from the hermeneutica tool environment (in which text evidence is explored) to the article environment (in which new interpretations are written). To address this difficulty, we created Voyant.”<br><small style='opacity: 0.7;'>— Hermeneutica, Chapter 1, pp. 22–23</small>",
+        refQ2: "“If AI comes, we will still invent (or re-invent) tools that allow us to use our own intelligence. We will still develop interpretive tools—hermeneutica—that can enhance and extend our reading rather than replace us.”<br><small style='opacity: 0.7;'>— Hermeneutica, Chapter 2, p. 43</small>",
+        refQ3: "“Hermeneutica proposes another method: the hybrid paper, an interpretive piece embedded with hermeneutic toys that allow for the exploration of technology... Hermeneutica embedded in traditional forms of academic argument offer more than a hybrid method: they offer a more compelling way.”<br><small style='opacity: 0.7;'>— Hermeneutica, Chapter 5, pp. 17/97</small>",
+        govTitle: "<span>🏛️</span> 6. Lineage and Governance: Who is Responsible? Funding, Institutions, and Living Alliances",
+        govT1: "Canadian text consistency precedents (PRORA, TACT, HyperPo). Geoffrey Rockwell and Stéfan Sinclair initiated exploratory experiments in the TAPOR lab at McGill University.",
+        govT2: "Major research support from SSHRC (Social Sciences and Humanities Research Council of Canada) and CFI (Canada Foundation for Innovation). Co-developed by the University of Alberta and McGill University with lead programmer Andrew MacDonald.",
+        govT3: "Following Professor Sinclair's passing, the Voyant Alliance was established to ensure open-source continuity. Supported by the Digital Research Alliance of Canada and the national LINCS Project (voyant.lincsproject.ca).",
+        govQuote: "“Thus agile hermeneutics and Voyant are self-conscious reinventions on the giant shoulders of tradition, not fixed and stable production systems. As research tools they are unstable models rather than finished things.”<br><small style='opacity: 0.7;'>— Hermeneutica, Chapter 1, p. 12</small>",
+        lnkTitle: "<span>🔗</span> 7. Directory: Where is it? Verified Links",
+        lnkL1H: "Web Environment", lnkL1P: "Live online portal<br><strong>voyant-tools.org</strong>",
+        lnkL2H: "Alliance & Info", lnkL2P: "Bylaws, team & community<br><strong>voyant-tools.info</strong>",
+        lnkL3H: "Files", lnkL3P: "Tool & skin manuals<br><strong>Documentation</strong>",
+        lnkL4H: "Open Source", lnkL4P: "Public Java/JS repositories<br><strong>github.com/voyanttools</strong>",
+        footerText: "Flora's Digital Humanities Presentation · DH 500 · Fall 2026 · University of Alberta",
         btnLive: "🌐 Launch Voyant Tools Live",
         btnGit: "💻 GitHub Repository",
         btnDoc: "📑 Official Documentation"
@@ -433,6 +606,21 @@
         techBody: "Voyant Tools s'appuie sur une architecture performante : son backend utilise <a href='https://www.java.com' target='_blank' class='tech-link'>Java</a> et le moteur d'indexation <a href='https://lucene.apache.org' target='_blank' class='tech-link'>Apache Lucene</a> ; son interface repose sur <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript' target='_blank' class='tech-link'>JavaScript</a>, le framework <a href='https://www.sencha.com/products/extjs/' target='_blank' class='tech-link'>Ext JS</a> et la bibliothèque graphique <a href='https://d3js.org' target='_blank' class='tech-link'>D3.js</a>, sous licence libre <a href='https://www.gnu.org/licenses/gpl-3.0.html' target='_blank' class='tech-link'>GPLv3</a>.",
         extTitle: "<span>🔌</span> 4. Intégration API et extensions d'espace de travail",
         extBody: "Au-delà de l'interface web, Voyant propose une <strong>API</strong> robuste (via Trombone) pour manipuler des chaînes de texte par script. Des guides de configuration <strong>Eclipse / IntelliJ</strong> et des pipelines CI/CD GitHub Actions facilitent le développement et le déploiement.",
+        refTitle: "<span>🧠</span> 5. Agenda et Réflexion : L'intelligence humaine à l'ère de l'IA",
+        refQ1: "« Cependant, en pratique, nous avons trouvé difficile de passer rapidement de l'environnement d'outils herméneutiques à l'environnement d'articles. Pour résoudre cette difficulté, nous avons créé Voyant. »<br><small style='opacity: 0.7;'>— Hermeneutica, Chapitre 1, pp. 22–23</small>",
+        refQ2: "« Si l'IA arrive, nous inventerons (ou réinventerons) des outils permettant d'utiliser notre propre intelligence. »<br><small style='opacity: 0.7;'>— Hermeneutica, Chapitre 2, p. 43</small>",
+        refQ3: "« Hermeneutica propose une autre méthode : l'article hybride... »<br><small style='opacity: 0.7;'>— Hermeneutica, Chapitre 5, pp. 17/97</small>",
+        govTitle: "<span>🏛️</span> 6. Lignage et Gouvernance : Qui est responsable ? Financement et alliances",
+        govT1: "Précédents de consistance textuelle canadienne (PRORA, TACT). Expériences de G. Rockwell et S. Sinclair au labo TAPOR.",
+        govT2: "Soutien majeur du SSHRC et de la FCI. Co-développé avec Andrew MacDonald.",
+        govT3: "Création de l'Alliance Voyant après le décès du Pr. Sinclair. Soutenu par l'Alliance numérique du Canada et le projet LINCS.",
+        govQuote: "« Ainsi, l'herméneutique agile et Voyant sont des réinventions conscientes sur les épaules de la tradition... »<br><small style='opacity: 0.7;'>— Hermeneutica, Chapitre 1, p. 12</small>",
+        lnkTitle: "<span>🔗</span> 7. Répertoire : Où est-ce ? Liens vérifiés",
+        lnkL1H: "Environnement Web", lnkL1P: "Portail en ligne<br><strong>voyant-tools.org</strong>",
+        lnkL2H: "Alliance et Infos", lnkL2P: "Équipe & communauté<br><strong>voyant-tools.info</strong>",
+        lnkL3H: "Fichiers", lnkL3P: "Manuels d'outils<br><strong>Documentation</strong>",
+        lnkL4H: "Open Source", lnkL4P: "Dépôts Java/JS publics<br><strong>github.com/voyanttools</strong>",
+        footerText: "Présentation Humanités Numériques de Flora · DH 500 · Automne 2026 · Université de l'Alberta",
         btnLive: "🌐 Lancer Voyant Tools",
         btnGit: "💻 Dépôt GitHub",
         btnDoc: "📑 Documentation officielle"
@@ -453,6 +641,21 @@
         techBody: "El backend de Voyant Tools funciona con <a href='https://www.java.com' target='_blank' class='tech-link'>Java</a> y el motor de búsqueda <a href='https://lucene.apache.org' target='_blank' class='tech-link'>Apache Lucene</a>; la interfaz integra <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript' target='_blank' class='tech-link'>JavaScript</a>, la librería <a href='https://www.sencha.com/products/extjs/' target='_blank' class='tech-link'>Ext JS</a> y gráficos con <a href='https://d3js.org' target='_blank' class='tech-link'>D3.js</a>, bajo la licencia abierta <a href='https://www.gnu.org/licenses/gpl-3.0.html' target='_blank' class='tech-link'>GPLv3</a>.",
         extTitle: "<span>🔌</span> 4. Integración de API y espacio de trabajo local",
         extBody: "Además de la web, Voyant expone una <strong>API</strong> mediante su motor Trombone para la manipulación de recursos de texto. También se incluyen guías de configuración para <strong>Eclipse / IntelliJ</strong> y despliegue automatizado con GitHub Actions.",
+        refTitle: "<span>🧠</span> 5. Agenda y Reflexión: Inteligencia humana en la era de la IA",
+        refQ1: "“Sin embargo, en la práctica, nos ha costado pasar del entorno de herramientas hermeneúticas al entorno de artículos. Para resolver esto, creamos Voyant.”<br><small style='opacity: 0.7;'>— Hermeneutica, Capítulo 1, pp. 22–23</small>",
+        refQ2: "“Si llega la IA, seguiremos inventando herramientas que nos permitan usar nuestra propia inteligencia en lugar de ser reemplazados.”<br><small style='opacity: 0.7;'>— Hermeneutica, Capítulo 2, p. 43</small>",
+        refQ3: "“Hermeneutica propone otro método: el artículo híbrido...”<br><small style='opacity: 0.7;'>— Hermeneutica, Capítulo 5, pp. 17/97</small>",
+        govTitle: "<span>🏛️</span> 6. Linaje y Gobernanza: ¿Quién es responsable? Financiación y Alianzas",
+        govT1: "Precedentes de consistencia de textos canadienses (PRORA, TACT). Experimentos en el laboratorio TAPOR de McGill.",
+        govT2: "Soporte de SSHRC y CFI. Co-desarrollado por la Universidad de Alberta y McGill con Andrew MacDonald.",
+        govT3: "Creación de la Alianza Voyant tras el fallecimiento de S. Sinclair. Apoyado por la Alianza de Investigación Digital de Canadá y LINCS.",
+        govQuote: "“Por lo tanto, la hermenéutica ágil y Voyant son reinvenciones autoconscientes sobre los hombros gigantes de la tradición...”<br><small style='opacity: 0.7;'>— Hermeneutica, Capítulo 1, p. 12</small>",
+        lnkTitle: "<span>🔗</span> 7. Directorio: ¿Dónde está? Enlaces verificados",
+        lnkL1H: "Entorno Web", lnkL1P: "Portal en línea<br><strong>voyant-tools.org</strong>",
+        lnkL2H: "Alianza e Info", lnkL2P: "Equipo y comunidad<br><strong>voyant-tools.info</strong>",
+        lnkL3H: "Archivos", lnkL3P: "Manuales y herramientas<br><strong>Documentación</strong>",
+        lnkL4H: "Código Abierto", lnkL4P: "Repositorios Java/JS<br><strong>github.com/voyanttools</strong>",
+        footerText: "Presentación de Humanidades Digitales de Flora · DH 500 · Otoño 2026 · Universidad de Alberta",
         btnLive: "🌐 Abrir Voyant Tools en vivo",
         btnGit: "💻 Repositorio GitHub",
         btnDoc: "📑 Documentación y guías"
@@ -473,6 +676,21 @@
         techBody: "Серверная часть платформы Voyant Tools построена на <a href='https://www.java.com' target='_blank' class='tech-link'>Java</a> и поисковом ядре <a href='https://lucene.apache.org' target='_blank' class='tech-link'>Apache Lucene</a>; клиентский веб-интерфейс использует чистый <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript' target='_blank' class='tech-link'>JavaScript</a>, модульный фреймворк <a href='https://www.sencha.com/products/extjs/' target='_blank' class='tech-link'>Ext JS</a> и библиотеку визуализации <a href='https://d3js.org' target='_blank' class='tech-link'>D3.js</a>, распространяясь по свободной лицензии <a href='https://www.gnu.org/licenses/gpl-3.0.html' target='_blank' class='tech-link'>GPLv3</a>.",
         extTitle: "<span>🔌</span> 4. Интеграция API и расширения рабочей среды",
         extBody: "Помимо веб-интерфейса, Voyant предоставляет полноценный <strong>API</strong> через движок Trombone (например, <code>tool=StoredResource&runWithoutCorpus=true</code>) для программной работы со строками. Для разработчиков также доступны руководства по настройке среды <strong>Eclipse / IntelliJ</strong> и CI/CD GitHub Actions.",
+        refTitle: "<span>🧠</span> 5. Повестка и размышления: Человеческий интеллект в эпоху ИИ",
+        refQ1: "“Однако на практике нам было трудно быстро перейти от среды инструментов герменевтики к среде статей. Чтобы решить эту проблему, мы создали Voyant.”<br><small style='opacity: 0.7;'>— Hermeneutica, Глава 1, с. 22–23</small>",
+        refQ2: "“Если придет ИИ, мы все равно изобретем инструменты, позволяющие использовать наш собственный интеллект...”<br><small style='opacity: 0.7;'>— Hermeneutica, Глава 2, с. 43</small>",
+        refQ3: "“Hermeneutica предлагает другой метод: гибридная статья...”<br><small style='opacity: 0.7;'>— Hermeneutica, Глава 5, с. 17/97</small>",
+        govTitle: "<span>🏛️</span> 6. Происхождение и управление: Кто отвечает? Финансирование и альянсы",
+        govT1: "Предшественники согласованности текстов (PRORA, TACT). Эксперименты Г. Роквелла и С. Синклера в лаборатории TAPOR.",
+        govT2: "Поддержка SSHRC и CFI. Разработано совместно с программистом Эндрю Макдональдом.",
+        govT3: "Создание Voyant Alliance для обеспечения непрерывности открытого кода. Поддержка Digital Research Alliance of Canada и LINCS.",
+        govQuote: "“Таким образом, agile-герменевтика и Voyant — это переосмысление на плечах гигантов традиции...”<br><small style='opacity: 0.7;'>— Hermeneutica, Глава 1, с. 12</small>",
+        lnkTitle: "<span>🔗</span> 7. Каталог: Где это находится? Проверенные ссылки",
+        lnkL1H: "Веб-среда", lnkL1P: "Онлайн-портал<br><strong>voyant-tools.org</strong>",
+        lnkL2H: "Альянс и инфо", lnkL2P: "Команда и комьюнити<br><strong>voyant-tools.info</strong>",
+        lnkL3H: "Файлы", lnkL3P: "Руководства<br><strong>Документация</strong>",
+        lnkL4H: "Открытый код", lnkL4P: "Репозитории Java/JS<br><strong>github.com/voyanttools</strong>",
+        footerText: "Презентация по цифровым гуманитарным наукам Флоры · DH 500 · Осень 2026 · Университет Альберты",
         btnLive: "🌐 Запустить Voyant Tools",
         btnGit: "💻 Исходный код на GitHub",
         btnDoc: "📑 Официальная документация"
@@ -504,6 +722,28 @@
       document.getElementById('t-ext-title').innerHTML = l.extTitle;
       document.getElementById('t-ext-body').innerHTML = l.extBody;
 
+      document.getElementById('t-ref-title').innerHTML = l.refTitle;
+      document.getElementById('t-ref-q1').innerHTML = l.refQ1;
+      document.getElementById('t-ref-q2').innerHTML = l.refQ2;
+      document.getElementById('t-ref-q3').innerHTML = l.refQ3;
+
+      document.getElementById('t-gov-title').innerHTML = l.govTitle;
+      document.getElementById('t-gov-t1').innerText = l.govT1;
+      document.getElementById('t-gov-t2').innerText = l.govT2;
+      document.getElementById('t-gov-t3').innerText = l.govT3;
+      document.getElementById('t-gov-quote').innerHTML = l.govQuote;
+
+      document.getElementById('t-lnk-title').innerHTML = l.lnkTitle;
+      document.getElementById('t-lnk-l1-h').innerText = l.lnkL1H;
+      document.getElementById('t-lnk-l1-p').innerHTML = l.lnkL1P;
+      document.getElementById('t-lnk-l2-h').innerText = l.lnkL2H;
+      document.getElementById('t-lnk-l2-p').innerHTML = l.lnkL2P;
+      document.getElementById('t-lnk-l3-h').innerText = l.lnkL3H;
+      document.getElementById('t-lnk-l3-p').innerHTML = l.lnkL3P;
+      document.getElementById('t-lnk-l4-h').innerText = l.lnkL4H;
+      document.getElementById('t-lnk-l4-p').innerHTML = l.lnkL4P;
+
+      document.getElementById('t-footer').innerText = l.footerText;
       document.getElementById('t-btn-live').innerText = l.btnLive;
       document.getElementById('t-btn-git').innerText = l.btnGit;
       document.getElementById('t-btn-doc').innerText = l.btnDoc;
