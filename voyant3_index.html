@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voyant 工具展示柜 · 实证与探索</title>
+  <style>
+    :root {
+      --plant-sage: #4a6b57;
+      --plant-moss: #2d4a37;
+      --plant-mint: #e8f3ec;
+      --plant-leaf: #5b8266;
+      --nature-warm: #fcfbf7;
+      --nature-sun: #e3a857;
+      --card-bg: #ffffff;
+      --text-dark: #263228;
+      --text-muted: #5c6b61;
+      --border-soft: #d8e6dc;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Georgia", "Cambria", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--nature-warm);
+      color: var(--text-dark);
+      line-height: 1.75;
+    }
+
+    /* 顶部通透导航栏 */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(252, 251, 247, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0.9rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--plant-moss);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--plant-moss);
+      font-weight: 600;
+    }
+
+    .btn-launch {
+      background-color: var(--plant-leaf);
+      color: #ffffff !important;
+      padding: 0.45rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-launch:hover {
+      background-color: var(--plant-moss);
+      box-shadow: 0 4px 10px rgba(45, 74, 55, 0.2);
+    }
+
+    /* 明亮自然 Hero 区（开篇直击波兰案例与核心主题） */
+    .hero-section {
+      background: linear-gradient(180deg, #eaf2ec 0%, var(--nature-warm) 100%);
+      padding: 4.5rem 1.5rem 3.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .badge-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .badge {
+      background: #ffffff;
+      color: var(--plant-moss);
+      border: 1px solid var(--border-soft);
+      padding: 0.35rem 1.1rem;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(45, 74, 55, 0.05);
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+      color: var(--plant-moss);
+      font-family: var(--font-serif);
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      max-width: 820px;
+      margin: 0 auto 2.2rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-warm {
+      background-color: var(--nature-sun);
+      color: #ffffff;
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(227, 168, 87, 0.3);
+      transition: all 0.2s ease;
+    }
+    .btn-warm:hover {
+      background-color: #cb9245;
+      transform: translateY(-2px);
+    }
+
+    .btn-plant {
+      background-color: #ffffff;
+      color: var(--plant-moss);
+      border: 1px solid var(--border-soft);
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+    .btn-plant:hover {
+      background-color: var(--plant-mint);
+      transform: translateY(-2px);
+    }
+
+    /* 主体内容排版 */
+    .main-container {
+      max-width: 1040px;
+      margin: 1.5rem auto 4rem;
+      padding: 0 1.5rem;
+    }
+
+    .showcase-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(45, 74, 55, 0.04);
+      border: 1px solid var(--border-soft);
+      padding: 2.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card-header-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--plant-moss);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--plant-mint);
+      padding-bottom: 0.9rem;
+    }
+
+    .card-lead-text {
+      font-size: 1.02rem;
+      color: var(--text-dark);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    /* 案例时间轴与实证双栏 */
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: start;
+      margin: 1.5rem 0;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .timeline-item {
+      background: #fafcfb;
+      border: 1px solid var(--border-soft);
+      border-left: 4px solid var(--plant-leaf);
+      padding: 1.1rem 1.2rem;
+      border-radius: 4px 10px 10px 4px;
+    }
+
+    .timeline-date {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #9f473c;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .image-frame {
+      background: #fdfdfd;
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 0.85rem;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    }
+
+    .image-frame img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .image-caption {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.7rem;
+      font-style: italic;
+    }
+
+    .quote-box {
+      background-color: var(--plant-mint);
+      border-left: 4px solid var(--plant-sage);
+      padding: 1.3rem 1.6rem;
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--plant-moss);
+      margin: 1.5rem 0;
+    }
+
+    /* 4块植物清新信息药丸 */
+    .four-pill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .pill-card {
+      background-color: var(--plant-mint);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 1.4rem;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .pill-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .pill-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--plant-leaf);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pill-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--plant-moss);
+    }
+
+    /* 列表与植物标点 */
+    .feature-list {
+      list-style: none;
+      margin-top: 1.2rem;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding-left: 1.6rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.96rem;
+      color: var(--text-dark);
+    }
+
+    .feature-list li::before {
+      content: "🌱";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 0.9rem;
+    }
+
+    /* 链接瓦片 */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+
+    .link-tile {
+      background: #ffffff;
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 1.2rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--plant-moss);
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .link-tile:hover {
+      border-color: var(--plant-leaf);
+      background-color: var(--plant-mint);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    @media (max-width: 768px) {
+      .navbar { flex-direction: column; gap: 0.8rem; }
+      .hero-title { font-size: 2.2rem; }
+      .story-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部导航 -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <span>🌿</span> Voyant 工具展示柜
+    </a>
+    <ul class="nav-links">
+      <li><a href="#section-case">波兰开篇案例</a></li>
+      <li><a href="#section-overview">工具定位与特性</a></li>
+      <li><a href="#section-tech">技术底座</a></li>
+      <li><a href="#section-people">学者团队与支持</a></li>
+      <li><a href="https://voyant-tools.org" target="_blank" class="btn-launch">启动 Voyant ↗</a></li>
+    </ul>
+  </nav>
+
+  <!-- 明亮自然 Hero 区 -->
+  <header class="hero-section">
+    <div class="badge-group">
+      <span class="badge">数字人文 (Digital Humanities)</span>
+      <span class="badge">阿尔伯塔大学</span>
+      <span class="badge">ADHO Zampolli 奖得主</span>
+      <span class="badge">开源 (GPLv3)</span>
+    </div>
+    <h1 class="hero-title">从微观话语到宏观远读</h1>
+    <p class="hero-subtitle">
+      以 2019 年波兰看守中心官方备忘录为实证起点：探索 Voyant Tools 如何在文本计算中连接“远距离阅读”与“近距离阐释”。
+    </p>
+    <div class="hero-cta-group">
+      <a href="#section-case" class="btn-warm">阅读开篇实证</a>
+      <a href="https://voyant-tools.org" target="_blank" class="btn-plant">体验在线分析平台</a>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- 第一部分：波兰实证案例开篇 -->
+    <section class="showcase-card" id="section-case">
+      <h2 class="card-header-title">
+        <span>📖</span> 1. 实证开篇：波兰看守中心的九日抗争与话语抹除
+      </h2>
+      <p class="card-lead-text">
+        2019年5月，波兰受监管外国人中心（SOdC）的9份官方边防警卫备忘录，记录了一名年轻女性在拘留环境下的急性心理危机。通过利用 Voyant Tools 对 1,246 个波兰语词汇进行的计算分析，研究揭示了制度性文本如何通过特定的词汇机制抹除当事人的主体性。
+      </p>
+
+      <div class="story-grid">
+        <div class="timeline-list">
+          <div class="timeline-item">
+            <div class="timeline-date">DAY 1 · 5月17日</div>
+            <div>吐出牙膏在地上写下“伊拉克”，拆开床垫套并藏匿金属勺。</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">DAY 3 & 4 · 5月18–19日</div>
+            <div>捡拾废弃残羹，踢打隔离闸门，在窗户上用牙膏涂写“玻璃仇恨”。</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">DAY 8 & 9 · 5月22–23日</div>
+            <div>搜集野生蘑菇与烟蒂，将果酱涂抹在墙面，最终被移送至15分钟监视的禁闭室。</div>
+          </div>
+        </div>
+
+        <div class="image-frame">
+          <img src="bed.jpg" alt="看守中心隔离室空间" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80';" />
+          <div class="image-caption">波兰看守中心隔离室的建筑格局（来源：Chwieduk, 2022）</div>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        “在这 9 份官方备忘录中，通篇未曾出现过她的真实名字，而是被统一抽象为‘被拘留者’（umieszczona）。通过 Voyant 的搭配词网络分析，她的肢体与语言抗争在统计学上被高频绑定至‘垃圾’与‘卫生’范畴，精神层面的创伤表达被系统性稀释成了清洁管理问题。”
+      </div>
+    </section>
+
+    <!-- 第二部分：工具一览表与多尺度能力 -->
+    <section class="showcase-card" id="section-overview">
+      <h2 class="card-header-title">
+        <span>📌</span> 2. 工具定位：什么是 Voyant Tools？
+      </h2>
+      <p class="card-lead-text">
+        Voyant Tools 是一款面向人文学者的免编程、交互式数字文本分析与阅读环境。它无需安装 Python 或 R 编译环境，通过预构建的联动小部件，让学者能够穿梭于海量文献的整体轮廓与细微上下文之间。
+      </p>
+
+      <div class="four-pill-grid">
+        <div class="pill-card">
+          <div class="pill-label">多尺度导航</div>
+          <div class="pill-value">远到近距离阅读</div>
+        </div>
+        <div class="pill-card">
+          <div class="pill-label">可重复性</div>
+          <div class="pill-value">持久化分享 URL</div>
+        </div>
+        <div class="pill-card">
+          <div class="pill-label">部署架构</div>
+          <div class="pill-value">云端托管 / 独立单机</div>
+        </div>
+        <div class="pill-card">
+          <div class="pill-label">协议开源</div>
+          <div class="pill-value">GPLv3 自由学术</div>
+        </div>
+      </div>
+
+      <ul class="feature-list">
+        <li><strong>远读与细读的同步连接：</strong>词云（Cirrus）与趋势图（Trends）提供宏观词频概览，而阅读器（Reader）与语境索引（Contexts）则即时定位具体词句。</li>
+        <li><strong>多部件联动机制：</strong>在图表中点击任意词语，其他 4 个面板会毫秒级联动响应，保持探索的一致性。</li>
+        <li><strong>多语言与跨国语料支持：</strong>内建丰富的分词与字符编码支持，适配英语、波兰语、法语及中文等多语种文献。</li>
+      </ul>
+
+      <div class="image-frame" style="margin-top: 2rem;">
+        <img src="voyant_ui.jpg" alt="Voyant 工作台" onerror="this.onerror=null; this.src='https://voyant-tools.org/resources/img/voyant-screen.png';" />
+        <div class="image-caption">Voyant Tools 经典五面板联动工作台界面</div>
+      </div>
+    </section>
+
+    <!-- 第三部分：技术底座 -->
+    <section class="showcase-card" id="section-tech">
+      <h2 class="card-header-title">
+        <span>⚙️</span> 3. 技术底座（Behind the Interface）
+      </h2>
+      <p class="card-lead-text">
+        Voyant Tools 基于成熟稳定的开源技术栈构建。其后端依赖 <strong>Java 与 Apache Lucene</strong> 搜索引擎，能够在毫秒级内完成文档的解析与倒排索引构建；前端结合 <strong>JavaScript、Ext JS 与 D3.js</strong> 图表库，提供流畅的数据可视化与多图表动态联动体验。
+      </p>
+    </section>
+
+    <!-- 第四部分：人员、机构与资源 -->
+    <section class="showcase-card" id="section-people">
+      <h2 class="card-header-title">
+        <span>🏛️</span> 4. 团队、主持机构与开源资源
+      </h2>
+      <p class="card-lead-text">
+        该项目由阿尔伯塔大学 <strong>Geoffrey Rockwell</strong> 教授与麦吉尔大学已故教授 <strong>Stéfan Sinclair</strong> 共同创立，目前由阿尔伯塔大学联合加拿大数字研究联盟（LINCS Project）长期主持维护。
+      </p>
+
+      <div class="links-grid">
+        <a href="https://voyant-tools.org" target="_blank" class="link-tile">🌐 在线体验 (voyant-tools.org)</a>
+        <a href="https://voyant-tools.info" target="_blank" class="link-tile">📑 官方文档与研究社区</a>
+        <a href="https://github.com/voyanttools/Voyant" target="_blank" class="link-tile">💻 GitHub 源码与工作流</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Voyant Tools Showcase · DH 500 · University of Alberta
+  </footer>
+
+</body>
+</html>
